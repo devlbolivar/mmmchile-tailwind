@@ -76,6 +76,22 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --primary-color: #3d98f4;
+  --secondary-color: #0c2a44;
+  --accent-color: #f0f7ff;
+  --text-primary: #111418;
+  --text-secondary: #4b5563;
+  --background-light: #ffffff;
+  --background-dark: #f9fafb;
+
+  --border-light: #e5e7eb;
+  --background-white: #ffffff;
+  --border-color: #e2e8f0;
+
+  --primary-hover-color: #2577d1;
+  --secondary-text-color: #525f7f;
+  --card-bg-color: #ffffff;
+  --body-bg-color: #f8fafc;
 }
 
 .dark {
@@ -119,4 +135,96 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors duration-300;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold text-[var(--secondary-color)] mb-6 text-center;
+  }
+
+  .card {
+    @apply bg-[var(--background-light)] rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl;
+  }
+
+  .btn-primary {
+    @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-[var(--accent-color)] hover:bg-blue-200 text-[var(--primary-color)] font-semibold py-3 px-6 rounded-lg transition-colors duration-300 border border-[var(--primary-color)];
+  }
+
+  /* ------------------------------------------------------------ */
+
+  .doctrine-card {
+    @apply bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300;
+  }
+  .download-card {
+    @apply flex flex-col items-center gap-3 rounded-lg border border-[var(--accent-color)] bg-white p-6 hover:shadow-md transition-shadow duration-200 cursor-pointer text-center;
+  }
+  .download-card svg {
+    @apply text-[var(--primary-color)];
+  }
+
+  .btn-icon {
+    @apply flex items-center justify-center size-10 rounded-lg bg-[var(--accent-color)] text-[var(--secondary-color)] hover:bg-slate-300 transition-colors duration-200;
+  }
+
+  /* ------------------------------------------------------------ */
+  .nav-link-active {
+    color: var(--primary-color) !important;
+    border-bottom-color: var(--primary-color) !important;
+    font-weight: 700;
+  }
+  .nav-link:hover {
+    color: var(--primary-color);
+  }
+  .tab-link-active {
+    border-bottom-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    font-weight: 700;
+  }
+  .tab-link:hover {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+  }
+  .church-card {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  .church-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ------------------------------------------------------------ */
+
+  .contact-info-item {
+    @apply flex items-center gap-3 text-[var(--text-primary)] text-sm leading-normal py-2;
+  }
+  .icon-placeholder {
+    @apply text-[var(--primary-color)];
+  }
+
+  /* ------------------------------------------------------------ */
+
+  .detail-item {
+    @apply col-span-2 grid grid-cols-subgrid border-t border-[var(--border-color)] py-5;
+  }
+  .detail-label {
+    @apply text-[var(--secondary-text-color)] text-sm font-medium leading-normal;
+  }
+  .detail-value {
+    @apply text-[#111418] text-sm font-normal leading-normal;
+  }
+  .primary-button {
+    @apply flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-[var(--primary-color)] text-white text-base font-semibold leading-normal tracking-[0.015em] shadow-sm hover:bg-[var(--primary-hover-color)] transition-colors;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
