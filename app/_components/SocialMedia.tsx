@@ -5,7 +5,7 @@ const SocialMedia = () => {
     <div className="flex space-x-4">
       <a
         className="text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-        href="https://www.facebook.com/mmmchile"
+        href="https://web.facebook.com/MMMCHILEORG/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Facebook"
@@ -25,7 +25,7 @@ const SocialMedia = () => {
       </a>
       <a
         className="text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-        href="https://www.instagram.com/mmmchile"
+        href="https://www.instagram.com/chile_mmm/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"
@@ -45,7 +45,7 @@ const SocialMedia = () => {
       </a>
       <a
         className="text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-        href="https://www.youtube.com/@mmmchile"
+        href="https://www.youtube.com/@KoinoniaMMMChileOficial"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="YouTube"

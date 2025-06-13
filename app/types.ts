@@ -1,4 +1,4 @@
-export type Iglesia = {
+export interface Iglesia {
   id: number;
   name: string;
   description: string;
@@ -14,10 +14,10 @@ export type Iglesia = {
   country: string;
   latitude: number;
   longitude: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | null;
+  updatedAt: Date | null;
   status: string;
-};
+}
 
 export type Zona = {
   id: number;
@@ -31,4 +31,19 @@ export type Doctrina = {
   name: string;
   description: string;
   verses: string[];
+};
+
+export type Evento = {
+  id: number;
+  name: string;
+  description: string;
+  dateStart: Date;
+  dateEnd: Date;
+  horarios: string[];
+  location: string;
+  map?: string;
+  image: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

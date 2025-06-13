@@ -2,10 +2,16 @@
 import React, { useState, useEffect } from "react";
 import NavMenu from "./NavMenu";
 import SocialMedia from "./SocialMedia";
+import ThemeToggle from "./ThemeToggle";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,46 +29,117 @@ const Header = () => {
     };
   }, [prevScrollPos]);
 
+  // Add effect to handle body scroll
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    if (pathname !== "/") {
+      // Si no estamos en la página principal, primero navegamos a ella
+      router.push("/");
+      // Esperamos a que la navegación se complete antes de hacer scroll
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 200);
+    } else {
+      // Si ya estamos en la página principal, solo hacemos scroll
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleNavClick = (e: React.MouseEvent, target: string) => {
+    e.preventDefault();
+    router.push(target);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 200);
+  };
+
   return (
     <header
-      className={`fixed w-full top-0 z-50 bg-[var(--background-light)]/80 backdrop-blur-md shadow-sm transition-transform duration-300 ${
+      className={`fixed w-full top-0 z-50 bg-[var(--background-light)]/10 backdrop-blur-md shadow-sm transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <div className="container mx-auto flex items-center justify-between whitespace-nowrap px-6 py-4">
-        <div className="flex items-center gap-3 text-[var(--secondary-color)]">
-          <div className="size-8 text-[var(--primary-color)]">
+        <div
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={handleLogoClick}
+        >
+          <div className="size-8">
+            <img
+              src="/images/logo.PNG"
+              alt="MMM Chile Logo"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <h2 className="text-xl font-bold tracking-tight text-white">
+            MMM Chile
+          </h2>
+        </div>
+        <NavMenu />
+        <div className="hidden md:flex items-center gap-4">
+          <SocialMedia />
+        </div>
+        <button
+          className="md:hidden text-white"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle mobile menu"
+        >
+          {isMobileMenuOpen ? (
             <svg
+              className="w-7 h-7"
               fill="none"
-              viewBox="0 0 48 48"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"
-                fill="currentColor"
-              ></path>
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
-          </div>
-          <h2 className="text-xl font-bold tracking-tight">MMM Chile</h2>
-        </div>
-        <NavMenu />
-        <SocialMedia />
-        <button className="md:hidden text-[var(--secondary-color)]">
-          <svg
-            className="w-7 h-7"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-          </svg>
+          ) : (
+            <svg
+              className="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 z-40 transition-transform duration-300 md:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        style={{ top: "64px" }}
+      >
+        <div className="bg-[var(--secondary-color)] flex flex-col items-center justify-center h-[calc(100vh-72px)] gap-8">
+          <NavMenu isMobile onLinkClick={() => setIsMobileMenuOpen(false)} />
+        </div>
       </div>
     </header>
   );
