@@ -69,7 +69,7 @@ const Header = () => {
         >
           <div className="size-8">
             <Image
-              src="/images/logo.PNG"
+              src="/images/logo.png"
               alt="MMM Chile Logo"
               className="w-full h-full object-contain"
               width={500}

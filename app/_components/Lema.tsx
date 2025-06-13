@@ -13,7 +13,7 @@ const Lema = () => {
         </div>
         <div className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
           <Image
-            src="/images/lema.PNG"
+            src="/images/lema.png"
             alt="Lema 2025"
             className="w-full md:h-[250px] object-cover"
             width={1024}

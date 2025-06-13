@@ -949,7 +949,7 @@ export const eventos: Evento[] = [
     horarios: ["Viernes", "Sábado", "Domingo"],
     location: "Gimnasio Municipal de Macul",
     map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3327.634526067217!2d-70.60039222357489!3d-33.4848647992766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d021e2bc8ccd%3A0xe15d3ed6fb7c6452!2sGimnasio%20Municipal%20Macul!5e0!3m2!1sen!2scl!4v1749763099896!5m2!1sen!2scl",
-    image: "/images/macul.PNG",
+    image: "/images/macul.png",
     status: "active",
     createdAt: new Date(),
     updatedAt: new Date(),
