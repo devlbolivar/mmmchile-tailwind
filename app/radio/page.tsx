@@ -118,9 +118,9 @@ const RadioPage = () => {
             </div>
             <div className="flex flex-col items-center gap-6 bg-white/10 backdrop-blur-sm px-6 py-10 text-white rounded-xl shadow-lg max-w-2xl mx-auto">
               <div
-                className="bg-center bg-no-repeat aspect-square bg-cover rounded-2xl size-72 shadow-md"
+                className="bg-center bg-no-repeat aspect-square rounded-2xl size-64 shadow-md bg-contain"
                 style={{
-                  backgroundImage: "url('/images/radio-bethel-chile.png')",
+                  backgroundImage: "url('/images/logo-bethel.png')",
                 }}
               ></div>
               <div className="text-center">
