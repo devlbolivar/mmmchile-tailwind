@@ -9,7 +9,7 @@ import {
   Pause,
 } from "lucide-react";
 
-const page = () => {
+const RadioPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -204,4 +204,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default RadioPage;

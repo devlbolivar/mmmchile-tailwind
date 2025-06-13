@@ -1,4 +1,11 @@
-export const handleNavClick = (e: React.MouseEvent, sectionId: string) => {
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
+export const handleNavClick = (
+  e: React.MouseEvent,
+  sectionId: string,
+  pathname: string,
+  router: AppRouterInstance
+) => {
   e.preventDefault();
 
   if (pathname !== "/") {
