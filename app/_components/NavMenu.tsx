@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { RadioIcon } from "lucide-react";
 
 interface NavMenuProps {
   isMobile?: boolean;
@@ -62,6 +63,9 @@ const NavMenu = ({ isMobile = false, onLinkClick }: NavMenuProps) => {
       <a className={linkClasses} onClick={(e) => handleNavClick(e, "contacto")}>
         Contacto
       </a>
+      <Link className={linkClasses} href="/radio" onClick={onLinkClick}>
+        Radio <RadioIcon className="inline-block ml-1 h-4 w-4 text-green-500" />
+      </Link>
     </nav>
   );
 };

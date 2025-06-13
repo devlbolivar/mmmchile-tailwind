@@ -28,7 +28,7 @@ const page = () => {
                 ti.
               </p>
             </div>
-            <Tabs defaultValue={zonas[0].name} className="w-full">
+            <Tabs defaultValue={zonas[2].name} className="w-full">
               <div className="w-full overflow-x-auto">
                 <TabsList className="inline-flex justify-start min-w-full border-b border-gray-600 px-2 sm:px-4 gap-3 sm:gap-6 md:gap-8">
                   {zonas.map((zona) => (

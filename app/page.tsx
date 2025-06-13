@@ -1,7 +1,4 @@
-import Header from "./_components/Header";
 import Main from "./_components/Main";
-import Footer from "./_components/Footer";
-import RadioWidget from "./_components/RadioWidget";
 
 export default function Home() {
   return (

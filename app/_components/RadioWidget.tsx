@@ -16,13 +16,6 @@ const RadioWidget = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleError = (e: ErrorEvent) => {
-      console.error("Audio error:", e);
-      setError("Error loading radio stream");
-      setIsPlaying(false);
-      setIsLoading(false);
-    };
-
     const handleCanPlay = () => {
       setIsLoading(false);
       setError(null);
@@ -32,14 +25,27 @@ const RadioWidget = () => {
       setIsLoading(true);
     };
 
-    audio.addEventListener("error", handleError as any);
+    const handlePlaying = () => {
+      setIsLoading(false);
+      setError(null);
+    };
+
+    const handleError = () => {
+      setError("Error al reproducir la radio");
+      setIsLoading(false);
+      setIsPlaying(false);
+    };
+
     audio.addEventListener("canplay", handleCanPlay);
     audio.addEventListener("waiting", handleWaiting);
+    audio.addEventListener("playing", handlePlaying);
+    audio.addEventListener("error", handleError);
 
     return () => {
-      audio.removeEventListener("error", handleError as any);
       audio.removeEventListener("canplay", handleCanPlay);
       audio.removeEventListener("waiting", handleWaiting);
+      audio.removeEventListener("playing", handlePlaying);
+      audio.removeEventListener("error", handleError);
     };
   }, []);
 
@@ -55,14 +61,15 @@ const RadioWidget = () => {
     try {
       if (isPlaying) {
         await audioRef.current.pause();
+        setIsPlaying(false);
       } else {
         setIsLoading(true);
+        setIsPlaying(true);
         await audioRef.current.play();
       }
-      setIsPlaying(!isPlaying);
     } catch (err) {
       console.error("Error toggling play:", err);
-      setError("Error playing radio stream");
+      setError("Error al reproducir la radio");
       setIsPlaying(false);
       setIsLoading(false);
     }

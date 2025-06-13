@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from "react";
 import NavMenu from "./NavMenu";
 import SocialMedia from "./SocialMedia";
-import ThemeToggle from "./ThemeToggle";
 import { useRouter, usePathname } from "next/navigation";
-import Link from "next/link";
+import Image from "next/image";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -57,14 +56,6 @@ const Header = () => {
     }
   };
 
-  const handleNavClick = (e: React.MouseEvent, target: string) => {
-    e.preventDefault();
-    router.push(target);
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 200);
-  };
-
   return (
     <header
       className={`fixed w-full top-0 z-50 bg-[var(--background-light)]/10 backdrop-blur-md shadow-sm transition-transform duration-300 ${
@@ -77,10 +68,12 @@ const Header = () => {
           onClick={handleLogoClick}
         >
           <div className="size-8">
-            <img
+            <Image
               src="/images/logo.PNG"
               alt="MMM Chile Logo"
               className="w-full h-full object-contain"
+              width={500}
+              height={500}
             />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">
