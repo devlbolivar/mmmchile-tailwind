@@ -92,6 +92,10 @@
   --secondary-text-color: #525f7f;
   --card-bg-color: #ffffff;
   --body-bg-color: #f8fafc;
+
+  --secondary-text: #5a6472;
+  --heading-text: #111827;
+  --card-background-color: #f8f9fa;
 }
 
 .dark {
@@ -227,6 +231,108 @@
   /* ------------------------------------------------------------ */
   .event-card {
     @apply bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transition-shadow hover:shadow-2xl;
+  }
+
+  /* ------------------------------------------------------------ */
+
+  .slider-navigation-button {
+    @apply absolute top-1/2 -translate-y-1/2  bg-white/80 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary-color)] rounded-full p-2 transition-colors duration-300;
+  }
+  .slider-navigation-icon {
+    @apply w-6 h-6 text-gray-700;
+  }
+
+  /* ------------------------------------------------------------ */
+
+  .timeline-item:hover .timeline-icon {
+    transform: scale(1.2);
+    color: var(--accent-color);
+  }
+  .timeline-line {
+    background-image: linear-gradient(to bottom, #dde0e4 2px, transparent 2px);
+    background-size: 2px 8px;
+  }
+  .header-icon {
+    color: var(--secondary-color);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  .donate-button {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  .donate-button:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+  }
+  .footer-link:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+  }
+  .social-icon:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1);
+  }
+
+  /* ------------------------------------------------------------ */
+
+  .hover-scale {
+    transition: transform 0.3s ease-in-out;
+  }
+  .hover-scale:hover {
+    transform: scale(1.03);
+  }
+  .video-thumbnail-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+  .video-thumbnail-container img {
+    transition: transform 0.3s ease-in-out;
+  }
+  .video-thumbnail-container:hover img {
+    transform: scale(1.1);
+  }
+  .play-button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 0.75rem;
+  }
+  .video-thumbnail-container:hover .play-button-overlay {
+    opacity: 1;
+  }
+  .play-button-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

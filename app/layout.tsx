@@ -4,7 +4,7 @@ import "./globals.css";
 import RadioWidget from "./_components/RadioWidget";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-import { ThemeProvider } from "next-themes";
+import GlobalInvitation from "./_components/GlobalInvitation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,17 +49,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          {children}
-          <Footer />
-          <RadioWidget />
-        </ThemeProvider>
+        <Header />
+        {children}
+        <Footer />
+        <RadioWidget />
+        <GlobalInvitation />
       </body>
     </html>
   );
