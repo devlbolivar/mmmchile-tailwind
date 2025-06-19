@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -9,8 +10,17 @@ import {
 import { aniversarioPics } from "@/data";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
 const Slider = () => {
+  const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>(
+    Object.fromEntries(aniversarioPics.map((pic) => [pic.id, true]))
+  );
+
+  const handleLoad = (id: string) => {
+    setLoadingMap((prev) => ({ ...prev, [id]: false }));
+  };
+
   return (
     <section className="relative pt-20 pb-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,12 +45,22 @@ const Slider = () => {
                     <Card className="relative overflow-hidden rounded-xl shadow-2xl p-0 m-0 w-full h-[300px] md:h-[800px] bg-transparent">
                       <CardContent className="relative w-full h-full p-0 m-0 bg-transparent">
                         <div className="w-full h-full relative">
+                          {loadingMap[pic.id] && (
+                            <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/10">
+                              <Loader2 className="animate-spin text-white" />
+                            </div>
+                          )}
                           <Image
                             src={pic.image}
                             alt={pic.name}
                             width={1400}
                             height={1000}
                             className="object-cover object-center w-full h-full rounded-xl"
+                            onLoadingComplete={() =>
+                              handleLoad(pic.id.toString())
+                            }
+                            placeholder="blur"
+                            blurDataURL={pic.image}
                           />
 
                           {/* Overlay de texto */}
