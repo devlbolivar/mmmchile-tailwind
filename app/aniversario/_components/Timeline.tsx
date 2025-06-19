@@ -17,7 +17,7 @@ const Timeline = () => {
         <div className="layout-content-container flex flex-col max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-white text-4xl sm:text-5xl font-bold leading-tight tracking-tight">
-              Celebrando 40 años de labor misionera
+              Línea de tiempo de la obra en Chile
             </h2>
             <div className="w-full flex items-center justify-center mt-4 mb-8">
               <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>

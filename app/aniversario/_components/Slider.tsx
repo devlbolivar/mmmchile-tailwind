@@ -40,7 +40,6 @@ const Slider = () => {
                             alt={pic.name}
                             width={1400}
                             height={1000}
-                            quality={100}
                             className="object-cover object-center w-full h-full rounded-xl"
                           />
 
