@@ -53,7 +53,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <RadioWidget />
-        <GlobalInvitation />
+        {/* <GlobalInvitation /> */}
       </body>
     </html>
   );
