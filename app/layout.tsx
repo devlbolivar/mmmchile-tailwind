@@ -4,7 +4,6 @@ import "./globals.css";
 import RadioWidget from "./_components/RadioWidget";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-import GlobalInvitation from "./_components/GlobalInvitation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
