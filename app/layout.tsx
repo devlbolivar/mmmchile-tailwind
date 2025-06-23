@@ -4,7 +4,7 @@ import "./globals.css";
 import RadioWidget from "./_components/RadioWidget";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-
+import { Analytics } from "@vercel/analytics/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -52,7 +52,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <RadioWidget />
-        {/* <GlobalInvitation /> */}
+        <Analytics />
       </body>
     </html>
   );
