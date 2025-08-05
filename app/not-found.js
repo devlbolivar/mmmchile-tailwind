@@ -69,18 +69,6 @@ export default function NotFound() {
             </p>
           </Link>
         </div>
-
-        <div className="mt-12 text-center">
-          <p className="text-gray-400 text-sm mb-4">
-            ¿Necesitas ayuda? Contáctanos
-          </p>
-          <Link
-            href="/contacto"
-            className="bg-[#3d98f4] hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg inline-block"
-          >
-            Contactar
-          </Link>
-        </div>
       </div>
     </main>
   );
