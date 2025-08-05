@@ -2,6 +2,32 @@ import React from "react";
 import EventCard from "./_components/EventCard";
 import { eventos } from "@/data";
 import { Evento } from "../types";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Próximos Eventos",
+  description:
+    "Descubre los próximos eventos y actividades del Movimiento Misionero Mundial en Chile. Convenciones, conferencias, talleres y eventos especiales para toda la familia cristiana.",
+  keywords: [
+    "eventos cristianos",
+    "convención MMM",
+    "conferencias cristianas",
+    "eventos iglesia Chile",
+    "actividades cristianas",
+    "movimiento misionero eventos",
+  ],
+  openGraph: {
+    title: "Próximos Eventos | MMM Chile",
+    description:
+      "Descubre los próximos eventos y actividades del Movimiento Misionero Mundial en Chile.",
+    url: "https://mmmchile.cl/eventos",
+  },
+  twitter: {
+    title: "Próximos Eventos | MMM Chile",
+    description:
+      "Descubre los próximos eventos y actividades del Movimiento Misionero Mundial en Chile.",
+  },
+};
 
 const page = () => {
   return (
@@ -16,9 +42,9 @@ const page = () => {
           <div className="absolute inset-0 bg-black opacity-40"></div>
           <div className="container mx-auto px-6 py-20 relative">
             <div className="text-center mb-12">
-              <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight tracking-tight">
+              <h1 className="text-white text-4xl md:text-5xl font-bold leading-tight tracking-tight">
                 Próximos Eventos
-              </h2>
+              </h1>
               <div className="w-full flex items-center justify-center mt-4 mb-8">
                 <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>
               </div>

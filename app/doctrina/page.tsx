@@ -1,6 +1,34 @@
 import { doctrina } from "@/data";
 import React from "react";
 import DoctrinaCard from "./_components/doctrinaCard";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nuestra Doctrina",
+  description:
+    "Conoce los principios fundamentales de nuestra fe basados en la Santa Biblia. Doctrina cristiana, creencias fundamentales y enseñanza bíblica del Movimiento Misionero Mundial.",
+  keywords: [
+    "doctrina cristiana",
+    "creencias fundamentales",
+    "enseñanza bíblica",
+    "principios de fe",
+    "doctrina MMM",
+    "biblia",
+    "fe cristiana",
+    "evangelio",
+  ],
+  openGraph: {
+    title: "Nuestra Doctrina | MMM Chile",
+    description:
+      "Conoce los principios fundamentales de nuestra fe basados en la Santa Biblia.",
+    url: "https://mmmchile.cl/doctrina",
+  },
+  twitter: {
+    title: "Nuestra Doctrina | MMM Chile",
+    description:
+      "Conoce los principios fundamentales de nuestra fe basados en la Santa Biblia.",
+  },
+};
 
 const page = () => {
   return (

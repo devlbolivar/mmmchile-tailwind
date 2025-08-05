@@ -1,8 +1,34 @@
 import React from "react";
-
+import type { Metadata } from "next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zonas } from "@/data";
 import IglesiaCards from "./_components/IglesiaCards";
+
+export const metadata: Metadata = {
+  title: "Zonas e Iglesias",
+  description:
+    "Encuentra una iglesia del Movimiento Misionero Mundial cerca de ti. Ubicaciones, horarios de servicios y contacto de todas nuestras iglesias en Chile organizadas por zonas.",
+  keywords: [
+    "iglesias MMM Chile",
+    "iglesia cristiana cerca",
+    "horarios de servicios",
+    "iglesias evangélicas Chile",
+    "movimiento misionero iglesias",
+    "pastores Chile",
+    "servicios dominicales",
+  ],
+  openGraph: {
+    title: "Zonas e Iglesias | MMM Chile",
+    description:
+      "Encuentra una iglesia del Movimiento Misionero Mundial cerca de ti.",
+    url: "https://mmmchile.cl/iglesias",
+  },
+  twitter: {
+    title: "Zonas e Iglesias | MMM Chile",
+    description:
+      "Encuentra una iglesia del Movimiento Misionero Mundial cerca de ti.",
+  },
+};
 
 const page = () => {
   return (
