@@ -941,21 +941,6 @@ export const doctrina: Doctrina[] = [
 export const eventos: Evento[] = [
   {
     id: 1,
-    name: "Confraternidad Nacional 2025",
-    description:
-      "Un encuentro espiritual trascendental que reunirá a pastores, líderes y miembros de todas las iglesias del Movimiento Misionero Mundial en Chile. Durante tres días, nos fortaleceremos en la fe, recibiremos enseñanza bíblica sólida y experimentaremos un avivamiento que transformará nuestras vidas y ministerios. Juntos buscaremos la dirección del Espíritu Santo para avanzar en la misión que Dios nos ha encomendado, fortaleciendo nuestra unidad y compromiso con la evangelización mundial.",
-    dateStart: new Date("2025-06-20T00:00:00"),
-    dateEnd: new Date("2025-06-22T00:00:00"),
-    horarios: ["Viernes", "Sábado", "Domingo"],
-    location: "Gimnasio Municipal de Macul",
-    map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3327.634526067217!2d-70.60039222357489!3d-33.4848647992766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d021e2bc8ccd%3A0xe15d3ed6fb7c6452!2sGimnasio%20Municipal%20Macul!5e0!3m2!1sen!2scl!4v1749763099896!5m2!1sen!2scl",
-    image: "/images/macul.png",
-    status: "active",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: 2,
     name: "Convención Nacional 2025",
     description:
       "La Convención Nacional 2025 será un evento histórico que congregará a toda la familia del Movimiento Misionero Mundial en Chile. Durante este encuentro, profundizaremos en temas fundamentales de nuestra fe, participaremos en talleres de capacitación ministerial y celebraremos la unidad de nuestra iglesia. Será un tiempo especial de renovación espiritual, donde recibiremos nuevas estrategias para la evangelización y fortaleceremos nuestros lazos de comunión. Este evento marcará un antes y un después en nuestro caminar como iglesia en Chile.",

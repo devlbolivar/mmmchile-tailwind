@@ -7,8 +7,6 @@ import Image from "next/image";
 import Nosotros from "./Nosotros";
 import Lema from "./Lema";
 import EventsSection from "./EventsSection";
-import Invitation from "./Invitation";
-
 const Main = () => {
   return (
     <main
@@ -84,7 +82,6 @@ const Main = () => {
       <Nosotros />
       <Lema />
       <EventsSection />
-      <Invitation />
       <section id="contacto" className="py-10 relative">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-white  text-center ">
