@@ -10,6 +10,8 @@ import {
   Clock,
   Calendar,
 } from "lucide-react";
+import Head from "next/head";
+import RadioSeoContent from "../_components/RadioSeoContent";
 
 const RadioPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -126,6 +128,22 @@ const RadioPage = () => {
 
   return (
     <div className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+      <Head>
+        <title>Radio Bethel Chile - Radio Cristiana</title>
+        <meta
+          name="description"
+          content="Escucha nuestra radio cristiana en vivo y mantente conectado con la palabra de Dios, predicaciones cristianas y música de adoración las 24 horas del día."
+        />
+        <meta
+          name="keywords"
+          content="Radio Bethel Chile, Radio Cristiana, Radio en vivo, Predicaciones, Estudios Bíblicos, Música de Adoración, Jesucristo"
+        />
+        <meta name="author" content="Radio Bethel Chile" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://www.radiobethelchile.com" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="layout-container flex h-full grow flex-col">
         <main
           className="flex-1"
@@ -137,14 +155,20 @@ const RadioPage = () => {
           <div className="container mx-auto px-6 py-20 relative">
             <div className="text-center mb-12">
               <h1 className="text-white text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-                Radio Bethel Chile
+                Radio Bethel Chile - Radio Cristiana
               </h1>
               <div className="w-full flex items-center justify-center mt-4 mb-8">
                 <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>
               </div>
               <p className="text-gray-200 text-lg max-w-2xl mx-auto">
-                Escucha nuestra radio en vivo y mantente conectado con la
-                palabra de Dios.
+                Escucha nuestra radio cristiana en vivo y mantente conectado con
+                la palabra de Dios, predicaciones cristianas y música de
+                adoración las 24 horas del día.
+              </p>
+              <p className="text-gray-300 text-base max-w-3xl mx-auto mt-4">
+                Una emisora cristiana dedicada a compartir el evangelio de
+                Jesucristo, enseñanzas bíblicas y mensajes de fe para fortalecer
+                tu vida espiritual.
               </p>
             </div>
 
@@ -265,12 +289,18 @@ const RadioPage = () => {
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <Calendar className="size-8 text-[var(--primary-color)]" />
                   <h2 className="text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight">
-                    Horarios de Programas
+                    Programación Cristiana
                   </h2>
                 </div>
                 <p className="text-gray-200 text-lg max-w-2xl mx-auto">
-                  Conoce nuestra programación semanal y no te pierdas ningún
-                  programa
+                  Conoce nuestra programación cristiana semanal con
+                  predicaciones, estudios bíblicos, música de adoración y
+                  mensajes de fe para toda la familia
+                </p>
+                <p className="text-gray-300 text-base max-w-3xl mx-auto mt-2">
+                  Programas diseñados para fortalecer tu fe cristiana,
+                  profundizar en el conocimiento bíblico y mantenerte conectado
+                  con la palabra de Dios.
                 </p>
               </div>
 
@@ -357,6 +387,7 @@ const RadioPage = () => {
           </div>
         </main>
       </div>
+      <RadioSeoContent />
     </div>
   );
 };

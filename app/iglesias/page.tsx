@@ -5,28 +5,41 @@ import { zonas } from "@/data";
 import IglesiaCards from "./_components/IglesiaCards";
 
 export const metadata: Metadata = {
-  title: "Zonas e Iglesias",
+  title: "Iglesias Cristianas Evangélicas en Chile | MMM Chile",
   description:
-    "Encuentra una iglesia del Movimiento Misionero Mundial cerca de ti. Ubicaciones, horarios de servicios y contacto de todas nuestras iglesias en Chile organizadas por zonas.",
+    "Encuentra una iglesia cristiana evangélica del Movimiento Misionero Mundial cerca de ti. Ubicaciones, horarios de servicios cristianos y contacto de todas nuestras iglesias en Chile organizadas por zonas.",
   keywords: [
-    "iglesias MMM Chile",
+    "iglesias cristianas",
+    "iglesias evangélicas",
     "iglesia cristiana cerca",
+    "iglesias MMM Chile",
     "horarios de servicios",
     "iglesias evangélicas Chile",
     "movimiento misionero iglesias",
     "pastores Chile",
     "servicios dominicales",
+    "iglesia cristiana chile",
+    "iglesia evangélica chile",
+    "cultos cristianos",
+    "estudios bíblicos",
+    "comunidad cristiana",
+    "iglesia local",
+    "ministerio cristiano",
+    "evangelio",
+    "fe cristiana",
+    "predicación cristiana",
+    "adoración cristiana",
   ],
   openGraph: {
-    title: "Zonas e Iglesias | MMM Chile",
+    title: "Iglesias Cristianas Evangélicas en Chile | MMM Chile",
     description:
-      "Encuentra una iglesia del Movimiento Misionero Mundial cerca de ti.",
+      "Encuentra una iglesia cristiana evangélica del Movimiento Misionero Mundial cerca de ti. Ubicaciones y horarios de servicios.",
     url: "https://mmmchile.cl/iglesias",
   },
   twitter: {
-    title: "Zonas e Iglesias | MMM Chile",
+    title: "Iglesias Cristianas Evangélicas en Chile | MMM Chile",
     description:
-      "Encuentra una iglesia del Movimiento Misionero Mundial cerca de ti.",
+      "Encuentra una iglesia cristiana evangélica del Movimiento Misionero Mundial cerca de ti.",
   },
 };
 
@@ -44,14 +57,19 @@ const page = () => {
           <div className="container mx-auto px-6 py-20 relative">
             <div className="text-center mb-12">
               <h1 className="text-white text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-                Zonas &amp; Iglesias
+                Iglesias Cristianas Evangélicas en Chile
               </h1>
               <div className="w-full flex items-center justify-center mt-4 mb-8">
                 <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>
               </div>
               <p className="text-gray-200 text-lg max-w-2xl mx-auto">
-                Explora las diferentes zonas y encuentra una iglesia cerca de
-                ti.
+                Explora las diferentes zonas y encuentra una iglesia cristiana
+                evangélica cerca de ti.
+              </p>
+              <p className="text-gray-300 text-base max-w-3xl mx-auto mt-4">
+                Nuestras iglesias cristianas ofrecen servicios de adoración,
+                estudios bíblicos y ministerios para toda la familia. Encuentra
+                una comunidad cristiana donde puedas crecer en tu fe.
               </p>
             </div>
             <Tabs defaultValue={zonas[2].name} className="w-full">

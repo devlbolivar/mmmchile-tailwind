@@ -24,7 +24,79 @@ export const metadata: Metadata = {
     template: "%s | MMM Chile",
   },
   description:
-    "Movimiento Misionero Mundial en Chile. Iglesia cristiana evangélica dedicada a la evangelización, enseñanza bíblica y servicio comunitario. Encuentra una iglesia cerca de ti.",
+    "Movimiento Misionero Mundial en Chile. Predicamos el evangelio de Jesucristo, enseñamos la Biblia y compartimos la fe cristiana. Encuentra una iglesia cerca de ti para crecer en tu fe.",
+  keywords: [
+    "iglesia cristiana",
+    "iglesia evangélica",
+    "iglesia cristiana chile",
+    "evangelio",
+    "fe cristiana",
+    "predicación cristiana",
+    "enseñanza bíblica",
+    "movimiento misionero mundial",
+    "iglesia pentecostal",
+    "cristianismo",
+    "jesucristo",
+    "biblia",
+    "oración",
+    "adoración",
+    "comunidad cristiana",
+    "iglesia local",
+    "ministerio cristiano",
+    "evangelización",
+    "discipulado",
+    "santidad cristiana",
+  ],
+  authors: [{ name: "Movimiento Misionero Mundial Chile" }],
+  creator: "Movimiento Misionero Mundial Chile",
+  publisher: "Movimiento Misionero Mundial Chile",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://mmmchile.cl"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_CL",
+    url: "https://mmmchile.cl",
+    title: "Iglesia Cristiana Evangélica en Chile | MMM Chile",
+    description:
+      "Iglesia cristiana evangélica en Chile. Predicamos el evangelio de Jesucristo, enseñamos la Biblia y compartimos la fe cristiana.",
+    siteName: "Movimiento Misionero Mundial Chile",
+    images: [
+      {
+        url: "/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Iglesia Cristiana MMM Chile - Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Iglesia Cristiana Evangélica en Chile | MMM Chile",
+    description:
+      "Iglesia cristiana evangélica en Chile. Predicamos el evangelio de Jesucristo, enseñamos la Biblia y compartimos la fe cristiana.",
+    images: ["/images/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Reemplazar con el código real
+  },
 };
 
 export default function RootLayout({

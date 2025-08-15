@@ -1,0 +1,33 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mmmchile.cl/sitemap.xml
+
+# Allow crawling of important pages
+Allow: /iglesias/
+Allow: /eventos/
+Allow: /doctrina/
+Allow: /radio/
+Allow: /contacto/
+
+# Disallow admin or private areas (if any exist in the future)
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1

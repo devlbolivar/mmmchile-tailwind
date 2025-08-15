@@ -7,6 +7,7 @@ import Image from "next/image";
 import Nosotros from "./Nosotros";
 import Lema from "./Lema";
 import EventsSection from "./EventsSection";
+import ChurchSeoContent from "./ChurchSeoContent";
 import { imageConfig } from "../utils/image-placeholders";
 const Main = () => {
   return (
@@ -33,14 +34,27 @@ const Main = () => {
                 Movimiento Misionero Mundial en Chile
               </h1>
               <p className="text-gray-200 text-lg sm:text-xl font-light leading-relaxed mb-4">
-                Un lugar de encuentro espiritual y crecimiento en la fe.
+                Una iglesia cristiana donde encontrarás el evangelio de
+                Jesucristo, enseñanza bíblica sólida y una comunidad de fe que
+                te ayudará a crecer espiritualmente.
               </p>
-              <Link href="/doctrina">
-                <Button className="btn-primary bg-[var(--primary-color)] text-lg px-8 py-4 cursor-pointer">
-                  Conócenos
-                  <ArrowRightIcon className="w-4 h-4" />
-                </Button>
-              </Link>
+              <p className="text-gray-300 text-base font-light leading-relaxed mb-6">
+                Somos parte del Movimiento Misionero Mundial, predicando la
+                Palabra de Dios y compartiendo el amor de Cristo con todos.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/doctrina">
+                  <Button className="btn-primary bg-[var(--primary-color)] text-lg px-8 py-4 cursor-pointer">
+                    Conoce Nuestra Fe
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link href="/iglesias">
+                  <Button className="btn-secondary bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-900 text-lg px-8 py-4 cursor-pointer">
+                    Encuentra una Iglesia
+                  </Button>
+                </Link>
+              </div>
             </div>
             <div className="relative h-[500px] md:h-[600px] w-full order-1 md:order-2">
               <Image
@@ -86,6 +100,7 @@ const Main = () => {
       <Nosotros />
       <Lema />
       <EventsSection />
+      <ChurchSeoContent />
       <section id="contacto" className="py-10 relative">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-white  text-center ">

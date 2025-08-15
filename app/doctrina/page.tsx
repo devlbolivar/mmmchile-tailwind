@@ -4,11 +4,12 @@ import DoctrinaCard from "./_components/doctrinaCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Nuestra Doctrina",
+  title: "Doctrina Cristiana | Iglesia Evangélica en Chile",
   description:
-    "Conoce los principios fundamentales de nuestra fe basados en la Santa Biblia. Doctrina cristiana, creencias fundamentales y enseñanza bíblica del Movimiento Misionero Mundial.",
+    "Conoce los principios fundamentales de nuestra fe cristiana basados en la Santa Biblia. Doctrina evangélica, creencias fundamentales y enseñanza bíblica de nuestra iglesia cristiana en Chile.",
   keywords: [
     "doctrina cristiana",
+    "doctrina evangélica",
     "creencias fundamentales",
     "enseñanza bíblica",
     "principios de fe",
@@ -16,17 +17,28 @@ export const metadata: Metadata = {
     "biblia",
     "fe cristiana",
     "evangelio",
+    "iglesia cristiana",
+    "iglesia evangélica",
+    "cristianismo",
+    "jesucristo",
+    "palabra de dios",
+    "sana doctrina",
+    "iglesia pentecostal",
+    "movimiento misionero mundial",
+    "doctrina bíblica",
+    "teología cristiana",
+    "fundamentos de la fe",
   ],
   openGraph: {
-    title: "Nuestra Doctrina | MMM Chile",
+    title: "Doctrina Cristiana | Iglesia Evangélica MMM Chile",
     description:
-      "Conoce los principios fundamentales de nuestra fe basados en la Santa Biblia.",
+      "Conoce los principios fundamentales de nuestra fe cristiana basados en la Santa Biblia. Doctrina evangélica y enseñanza bíblica.",
     url: "https://mmmchile.cl/doctrina",
   },
   twitter: {
-    title: "Nuestra Doctrina | MMM Chile",
+    title: "Doctrina Cristiana | Iglesia Evangélica MMM Chile",
     description:
-      "Conoce los principios fundamentales de nuestra fe basados en la Santa Biblia.",
+      "Conoce los principios fundamentales de nuestra fe cristiana basados en la Santa Biblia.",
   },
 };
 
@@ -44,14 +56,19 @@ const page = () => {
           <div className="container mx-auto px-6 py-20 relative">
             <div className="text-center mb-12">
               <h1 className="text-white text-4xl sm:text-5xl font-bold leading-tight tracking-tight">
-                Nuestra Doctrina
+                Doctrina Cristiana Evangélica
               </h1>
               <div className="w-full flex items-center justify-center mt-4 mb-8">
                 <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>
               </div>
               <p className="text-gray-200 text-lg max-w-2xl mx-auto">
-                Descubra los principios fundamentales de nuestra fe, basados en
-                la Santa Biblia.
+                Descubre los principios fundamentales de nuestra fe cristiana,
+                basados en la Santa Biblia y la enseñanza evangélica.
+              </p>
+              <p className="text-gray-300 text-base max-w-3xl mx-auto mt-4">
+                Como iglesia cristiana evangélica, nos fundamentamos en la
+                Palabra de Dios para compartir el evangelio de Jesucristo y
+                enseñar la sana doctrina bíblica.
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

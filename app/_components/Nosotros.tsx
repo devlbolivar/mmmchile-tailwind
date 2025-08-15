@@ -13,7 +13,7 @@ const Nosotros = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h3 className="text-2xl font-semibold text-white mb-4">
-              Nuestra Identidad
+              Nuestra Identidad como Iglesia Cristiana
             </h3>
             <p className="text-gray-200 text-base leading-relaxed mb-6">
               Como parte del Movimiento Misionero Mundial, nuestra identidad se
@@ -29,7 +29,7 @@ const Nosotros = () => {
           </div>
           <div>
             <h3 className="text-2xl font-semibold text-white mb-4">
-              Nuestra Misión
+              Nuestra Misión Evangelística
             </h3>
             <p className="text-gray-200 text-base leading-relaxed">
               Nuestra visión es llevar el mensaje transformador del evangelio de
