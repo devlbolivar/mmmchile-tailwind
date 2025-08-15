@@ -7,12 +7,43 @@ import {
   FastForward,
   SkipForward,
   Pause,
+  Clock,
+  Calendar,
 } from "lucide-react";
 
 const RadioPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Horarios de programas
+  const programSchedule = {
+    weekdays: [
+      { time: "03:00 AM", program: "Mensaje a la Conciencia" },
+      { time: "08:00 AM", program: "Mensaje a la Conciencia" },
+      { time: "09:00 AM", program: "Día a Día con Dios" },
+      { time: "10:00 AM", program: "Biblia Maestra" },
+      { time: "12:00 PM", program: "Momentos de Reflexión" },
+      { time: "02:00 PM", program: "Predicaciones" },
+      { time: "03:00 PM", program: "Al Ritmo del Corazón" },
+      { time: "04:00 PM", program: "Belleza Espiritual" },
+      { time: "05:00 PM", program: "The Noble Proyecto" },
+      { time: "10:00 PM", program: "Me Contó un Amigo" },
+      { time: "11:00 PM", program: "Biblia Maestra" },
+    ],
+    saturday: [
+      { time: "10:00 AM", program: "Hogar Dulce Hogar" },
+      { time: "11:00 AM", program: "Hablemos de Familia" },
+      { time: "02:00 PM", program: "Tiempo para los Niños" },
+      { time: "10:00 PM", program: "Entre 2 o 3" },
+    ],
+    sunday: [
+      { time: "09:00 AM", program: "Dulce Armonía" },
+      { time: "11:00 AM", program: "Transmisión de Culto" },
+      { time: "03:00 PM", program: "Sostenidas por su Gracia" },
+      { time: "04:00 PM", program: "Dulce Armonía Vespertino" },
+    ],
+  };
 
   useEffect(() => {
     // Initialize audio element
@@ -116,7 +147,9 @@ const RadioPage = () => {
                 palabra de Dios.
               </p>
             </div>
-            <div className="flex flex-col items-center gap-6 bg-white/10 backdrop-blur-sm px-6 py-10 text-white rounded-xl shadow-lg max-w-2xl mx-auto">
+
+            {/* Reproductor de Radio */}
+            <div className="flex flex-col items-center gap-6 bg-white/10 backdrop-blur-sm px-6 py-10 text-white rounded-xl shadow-lg max-w-2xl mx-auto mb-12">
               <div
                 className="bg-center bg-no-repeat aspect-square rounded-2xl size-64 shadow-md bg-contain"
                 style={{
@@ -128,11 +161,39 @@ const RadioPage = () => {
                   Radio Bethel Chile
                 </p>
                 <p className="text-[var(--primary-color)] text-lg font-medium leading-normal">
-                  {isLoading
-                    ? "Cargando..."
-                    : isPlaying
-                    ? "En vivo"
-                    : "En pausa"}
+                  {isLoading ? (
+                    "Cargando..."
+                  ) : isPlaying ? (
+                    "En vivo"
+                  ) : (
+                    <span className="flex items-center justify-center gap-2 text-yellow-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="inline-block size-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          fill="none"
+                        />
+                        <rect
+                          x="8"
+                          y="8"
+                          width="8"
+                          height="8"
+                          rx="2"
+                          fill="currentColor"
+                        />
+                      </svg>
+                      <span>Listo para reproducir</span>
+                    </span>
+                  )}
                 </p>
               </div>
               <div className="flex items-center justify-center gap-5 pt-2">
@@ -195,6 +256,102 @@ const RadioPage = () => {
                 >
                   <SkipForward className="size-9" />
                 </button>
+              </div>
+            </div>
+
+            {/* Horarios de Programas */}
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <Calendar className="size-8 text-[var(--primary-color)]" />
+                  <h2 className="text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight">
+                    Horarios de Programas
+                  </h2>
+                </div>
+                <p className="text-gray-200 text-lg max-w-2xl mx-auto">
+                  Conoce nuestra programación semanal y no te pierdas ningún
+                  programa
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Lunes a Viernes */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/20">
+                  <div className="text-center mb-6">
+                    <h3 className="text-white text-xl font-bold mb-2">
+                      Lunes a Viernes
+                    </h3>
+                    <div className="h-1 w-20 bg-[var(--primary-color)] rounded-full mx-auto"></div>
+                  </div>
+                  <div className="space-y-3">
+                    {programSchedule.weekdays.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <div className="flex items-center gap-2 text-[var(--primary-color)] font-semibold min-w-[80px]">
+                          <Clock className="size-4" />
+                          <span className="text-sm">{item.time}</span>
+                        </div>
+                        <div className="text-white text-sm font-medium flex-1 text-left">
+                          {item.program}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sábados */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/20">
+                  <div className="text-center mb-6">
+                    <h3 className="text-white text-xl font-bold mb-2">
+                      Sábados
+                    </h3>
+                    <div className="h-1 w-20 bg-[var(--primary-color)] rounded-full mx-auto"></div>
+                  </div>
+                  <div className="space-y-3">
+                    {programSchedule.saturday.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <div className="flex items-center gap-2 text-[var(--primary-color)] font-semibold min-w-[80px]">
+                          <Clock className="size-4" />
+                          <span className="text-sm">{item.time}</span>
+                        </div>
+                        <div className="text-white text-sm font-medium flex-1 text-left">
+                          {item.program}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Domingos */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/20">
+                  <div className="text-center mb-6">
+                    <h3 className="text-white text-xl font-bold mb-2">
+                      Domingos
+                    </h3>
+                    <div className="h-1 w-20 bg-[var(--primary-color)] rounded-full mx-auto"></div>
+                  </div>
+                  <div className="space-y-3">
+                    {programSchedule.sunday.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <div className="flex items-center gap-2 text-[var(--primary-color)] font-semibold min-w-[80px]">
+                          <Clock className="size-4" />
+                          <span className="text-sm">{item.time}</span>
+                        </div>
+                        <div className="text-white text-sm font-medium flex-1 text-left">
+                          {item.program}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
