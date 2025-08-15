@@ -7,6 +7,7 @@ import Image from "next/image";
 import Nosotros from "./Nosotros";
 import Lema from "./Lema";
 import EventsSection from "./EventsSection";
+import { imageConfig } from "../utils/image-placeholders";
 const Main = () => {
   return (
     <main
@@ -44,12 +45,15 @@ const Main = () => {
             <div className="relative h-[500px] md:h-[600px] w-full order-1 md:order-2">
               <Image
                 src="/images/hero-overlay.png"
-                alt="Movimiento Misionero Mundial"
+                alt="Movimiento Misionero Mundial Chile - Congregación unida en oración"
                 className="object-cover w-full h-full rounded-lg"
-                priority
-                width={1920}
-                height={1080}
-                quality={100}
+                priority={imageConfig.hero.priority}
+                width={imageConfig.hero.width}
+                height={imageConfig.hero.height}
+                quality={imageConfig.hero.quality}
+                placeholder="blur"
+                blurDataURL={imageConfig.hero.placeholder}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 style={{
                   maskImage: `linear-gradient(
                     to bottom,

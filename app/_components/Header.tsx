@@ -4,6 +4,7 @@ import NavMenu from "./NavMenu";
 import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import { imageConfig } from "../utils/image-placeholders";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -13,6 +14,9 @@ const Header = () => {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Solo ejecutar en el cliente
+    if (typeof window === "undefined") return;
+
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
@@ -30,6 +34,9 @@ const Header = () => {
 
   // Add effect to handle body scroll
   useEffect(() => {
+    // Solo ejecutar en el cliente
+    if (typeof document === "undefined") return;
+
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -70,10 +77,14 @@ const Header = () => {
           <div className="size-8">
             <Image
               src="/images/logo.png"
-              alt="MMM Chile Logo"
+              alt="Logotipo del Movimiento Misionero Mundial Chile"
               className="w-full h-full object-contain"
-              width={500}
-              height={500}
+              width={imageConfig.logo.width}
+              height={imageConfig.logo.height}
+              quality={imageConfig.logo.quality}
+              priority={imageConfig.logo.priority}
+              placeholder="blur"
+              blurDataURL={imageConfig.logo.placeholder}
             />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-white">
@@ -85,18 +96,26 @@ const Header = () => {
           <SocialMedia />
         </div>
         <button
-          className="md:hidden text-white"
+          className="md:hidden text-white p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle mobile menu"
+          aria-label={
+            isMobileMenuOpen
+              ? "Cerrar menú de navegación"
+              : "Abrir menú de navegación"
+          }
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
+          aria-haspopup="true"
         >
           {isMobileMenuOpen ? (
             <svg
-              className="w-7 h-7"
+              className="w-6 h-6"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="2"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -106,12 +125,13 @@ const Header = () => {
             </svg>
           ) : (
             <svg
-              className="w-7 h-7"
+              className="w-6 h-6"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="2"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
               <path
                 d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
@@ -125,12 +145,34 @@ const Header = () => {
 
       {/* Mobile Menu Overlay */}
       <div
+        id="mobile-menu"
         className={`fixed inset-0 z-40 transition-transform duration-300 md:hidden ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ top: "64px" }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mobile-menu-title"
       >
-        <div className="bg-[var(--secondary-color)] flex flex-col items-center justify-center h-[calc(100vh-72px)] gap-8">
+        {/* Backdrop para cerrar el menú */}
+        <div
+          className="absolute inset-0 bg-black/50"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+
+        <div className="relative bg-[var(--secondary-color)] flex flex-col items-center justify-center h-[calc(100vh-72px)] gap-8">
+          {/* Skip to content link */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-black px-4 py-2 rounded z-50"
+          >
+            Ir al contenido principal
+          </a>
+
+          <h2 id="mobile-menu-title" className="sr-only">
+            Menú de navegación móvil
+          </h2>
           <NavMenu isMobile onLinkClick={() => setIsMobileMenuOpen(false)} />
         </div>
       </div>

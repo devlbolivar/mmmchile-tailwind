@@ -6,7 +6,6 @@ import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import RadioWidget from "./_components/RadioWidget";
 import ErrorBoundary from "./_components/ErrorBoundary";
-import PWAComponents from "./_components/PWAComponents";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,7 +43,6 @@ export default function RootLayout({
           </main>
           <Footer />
           <RadioWidget />
-          <PWAComponents />
         </ErrorBoundary>
         <Analytics />
       </body>

@@ -2,11 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
-import Header from "./_components/Header";
-import Footer from "./_components/Footer";
-import RadioWidget from "./_components/RadioWidget";
-import ErrorBoundary from "./_components/ErrorBoundary";
-import PWAComponents from "./_components/PWAComponents";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,15 +32,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ErrorBoundary showDetails={process.env.NODE_ENV === "development"}>
-          <Header />
-          <main id="main-content" role="main">
-            <ErrorBoundary>{children}</ErrorBoundary>
-          </main>
-          <Footer />
-          <RadioWidget />
-          <PWAComponents />
-        </ErrorBoundary>
+        <main id="main-content" role="main">
+          {children}
+        </main>
         <Analytics />
       </body>
     </html>

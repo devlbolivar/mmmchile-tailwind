@@ -11,6 +11,7 @@ import { aniversarioPics } from "@/data";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
+import { imageConfig } from "../../utils/image-placeholders";
 
 const Slider = () => {
   const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>(
@@ -52,15 +53,16 @@ const Slider = () => {
                           )}
                           <Image
                             src={pic.image}
-                            alt={pic.name}
-                            width={1400}
-                            height={1000}
+                            alt={`Fotografía del aniversario MMM Chile: ${pic.name}`}
+                            width={imageConfig.gallery.width}
+                            height={imageConfig.gallery.height}
                             className="object-cover object-center w-full h-full rounded-xl"
-                            onLoadingComplete={() =>
-                              handleLoad(pic.id.toString())
-                            }
+                            onLoad={() => handleLoad(pic.id.toString())}
                             placeholder="blur"
-                            blurDataURL={pic.image}
+                            blurDataURL={imageConfig.gallery.placeholder}
+                            quality={imageConfig.gallery.quality}
+                            sizes="100vw"
+                            loading="lazy"
                           />
 
                           {/* Overlay de texto */}

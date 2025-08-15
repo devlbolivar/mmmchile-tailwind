@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { imageConfig } from "../utils/image-placeholders";
 
 const Lema = () => {
   return (
@@ -14,11 +15,15 @@ const Lema = () => {
         <div className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
           <Image
             src="/images/lema.png"
-            alt="Lema 2025"
+            alt="Lema 2025 del Movimiento Misionero Mundial Chile"
             className="w-full md:h-[250px] object-cover"
             width={1024}
-            height={1024}
-            quality={100}
+            height={512}
+            quality={85}
+            placeholder="blur"
+            blurDataURL={imageConfig.hero.placeholder}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+            loading="lazy"
           />
         </div>
       </div>

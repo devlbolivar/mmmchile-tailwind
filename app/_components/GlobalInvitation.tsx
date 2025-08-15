@@ -16,6 +16,10 @@ const GlobalInvitation = () => {
   const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
+    // Solo ejecutar en el cliente
+    if (typeof window === "undefined" || typeof sessionStorage === "undefined")
+      return;
+
     // Verificar si el usuario ya ha visto el diálogo en esta sesión
     const hasSeenDialog = sessionStorage.getItem("hasSeenInvitationDialog");
 

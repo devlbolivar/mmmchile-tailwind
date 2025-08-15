@@ -14,6 +14,10 @@ declare global {
 
 export default function InstagramEmbed() {
   useEffect(() => {
+    // Solo ejecutar en el cliente
+    if (typeof window === "undefined" || typeof document === "undefined")
+      return;
+
     // Cargar el script de Instagram si aún no está
     if (!window.instgrm) {
       const script = document.createElement("script");
