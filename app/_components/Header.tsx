@@ -5,6 +5,7 @@ import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { imageConfig } from "../utils/image-placeholders";
+import { useScrollLock } from "../../hooks/useScrollLock";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -32,20 +33,8 @@ const Header = () => {
     };
   }, [prevScrollPos]);
 
-  // Add effect to handle body scroll
-  useEffect(() => {
-    // Solo ejecutar en el cliente
-    if (typeof document === "undefined") return;
-
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMobileMenuOpen]);
+  // Use custom hook for scroll locking
+  useScrollLock(isMobileMenuOpen);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -146,10 +135,13 @@ const Header = () => {
       {/* Mobile Menu Overlay */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-40 transition-transform duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 transition-transform duration-300 md:hidden mobile-menu-overlay ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
-        style={{ top: "64px" }}
+        style={{
+          top: "64px",
+          height: "calc(100vh - 64px)",
+        }}
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-menu-title"
@@ -161,7 +153,7 @@ const Header = () => {
           aria-hidden="true"
         />
 
-        <div className="relative bg-[var(--secondary-color)] flex flex-col items-center justify-center h-[calc(100vh-72px)] gap-8">
+        <div className="relative bg-[var(--secondary-color)] flex flex-col items-center justify-center h-full gap-8 mobile-menu-overlay">
           {/* Skip to content link */}
           <a
             href="#main-content"

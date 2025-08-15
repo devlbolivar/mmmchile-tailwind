@@ -665,3 +665,62 @@ textarea[aria-invalid="true"] {
   background: rgba(239, 68, 68, 0.9);
   color: white;
 }
+
+/* Mobile menu scroll prevention */
+.mobile-menu-open {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+  -webkit-overflow-scrolling: auto !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+.mobile-menu-overlay {
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+  -webkit-overflow-scrolling: auto !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+/* Ensure mobile menu covers full screen */
+.mobile-menu-overlay {
+  min-height: 100vh !important;
+  min-height: 100dvh !important; /* Dynamic viewport height for mobile */
+}
+
+/* Prevent scroll on mobile devices when menu is open */
+@media (max-width: 768px) {
+  body.mobile-menu-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+    -webkit-overflow-scrolling: auto !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+  }
+
+  /* Additional iOS Safari fixes */
+  body.mobile-menu-open * {
+    -webkit-overflow-scrolling: auto !important;
+    overscroll-behavior: none !important;
+  }
+
+  /* Ensure mobile menu covers full screen on mobile */
+  .mobile-menu-overlay {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+}
