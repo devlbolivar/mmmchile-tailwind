@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import {
   SkipBack,
   Rewind,
@@ -9,14 +9,23 @@ import {
   Pause,
   Clock,
   Calendar,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import Head from "next/head";
 import RadioSeoContent from "../_components/RadioSeoContent";
+import { useRadio } from "../_components/RadioContext";
 
 const RadioPage = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const {
+    isPlaying,
+    isLoading,
+    error,
+    volume,
+    togglePlay,
+    handleVolumeChange,
+    toggleMute,
+  } = useRadio();
 
   // Horarios de programas
   const programSchedule = {
@@ -45,85 +54,6 @@ const RadioPage = () => {
       { time: "03:00 PM", program: "Sostenidas por su Gracia" },
       { time: "04:00 PM", program: "Dulce Armonía Vespertino" },
     ],
-  };
-
-  useEffect(() => {
-    // Initialize audio element
-    audioRef.current = new Audio(
-      "https://s38.radiolize.com/radio/8040/radio.mp3"
-    );
-
-    // Add event listeners
-    const audio = audioRef.current;
-
-    const handleCanPlay = () => {
-      setIsLoading(false);
-    };
-
-    const handlePlaying = () => {
-      setIsLoading(false);
-      setIsPlaying(true);
-    };
-
-    const handlePause = () => {
-      setIsPlaying(false);
-    };
-
-    const handleWaiting = () => {
-      setIsLoading(true);
-    };
-
-    const handleError = () => {
-      setIsPlaying(false);
-      setIsLoading(false);
-      console.error("Error loading audio stream");
-    };
-
-    const handleStalled = () => {
-      setIsLoading(true);
-    };
-
-    const handleLoadStart = () => {
-      setIsLoading(true);
-    };
-
-    audio.addEventListener("canplay", handleCanPlay);
-    audio.addEventListener("playing", handlePlaying);
-    audio.addEventListener("pause", handlePause);
-    audio.addEventListener("waiting", handleWaiting);
-    audio.addEventListener("error", handleError);
-    audio.addEventListener("stalled", handleStalled);
-    audio.addEventListener("loadstart", handleLoadStart);
-
-    // Cleanup
-    return () => {
-      audio.pause();
-      audio.removeEventListener("canplay", handleCanPlay);
-      audio.removeEventListener("playing", handlePlaying);
-      audio.removeEventListener("pause", handlePause);
-      audio.removeEventListener("waiting", handleWaiting);
-      audio.removeEventListener("error", handleError);
-      audio.removeEventListener("stalled", handleStalled);
-      audio.removeEventListener("loadstart", handleLoadStart);
-    };
-  }, []);
-
-  const togglePlay = async () => {
-    if (!audioRef.current) return;
-
-    try {
-      if (isPlaying) {
-        await audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        setIsLoading(true);
-        await audioRef.current.play();
-      }
-    } catch (err) {
-      console.error("Error toggling play:", err);
-      setIsPlaying(false);
-      setIsLoading(false);
-    }
   };
 
   return (
@@ -185,7 +115,9 @@ const RadioPage = () => {
                   Radio Bethel Chile
                 </p>
                 <p className="text-[var(--primary-color)] text-lg font-medium leading-normal">
-                  {isLoading ? (
+                  {error ? (
+                    <span className="text-red-400">Error: {error}</span>
+                  ) : isLoading ? (
                     "Cargando..."
                   ) : isPlaying ? (
                     "En vivo"
@@ -220,66 +152,83 @@ const RadioPage = () => {
                   )}
                 </p>
               </div>
-              <div className="flex items-center justify-center gap-5 pt-2">
+              {/* Controles principales - Primera fila */}
+              <div className="flex items-center justify-center gap-3 sm:gap-4 pt-2">
                 <button
-                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
+                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-10 sm:size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
                   onClick={() => {
-                    if (audioRef.current) {
-                      audioRef.current.load();
-                      setIsLoading(true);
-                    }
+                    // Reload audio
+                    window.location.reload();
                   }}
+                  title="Reiniciar radio"
                 >
-                  <SkipBack className="size-9" />
+                  <SkipBack className="size-7 sm:size-9" />
                 </button>
                 <button
-                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
-                  onClick={() => {
-                    if (audioRef.current) {
-                      audioRef.current.currentTime = Math.max(
-                        0,
-                        audioRef.current.currentTime - 10
-                      );
-                    }
-                  }}
+                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-10 sm:size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
+                  disabled
+                  title="No disponible para radio en vivo"
                 >
-                  <Rewind className="size-9" />
+                  <Rewind className="size-7 sm:size-9" />
                 </button>
                 <button
-                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-20 bg-[var(--primary-color)] text-white shadow-md hover:bg-blue-300 transition-all radio-player-button disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-16 sm:size-20 bg-[var(--primary-color)] text-white shadow-md hover:bg-blue-300 transition-all radio-player-button disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={togglePlay}
                   disabled={isLoading}
                 >
                   {isPlaying ? (
-                    <Pause className="size-10" />
+                    <Pause className="size-8 sm:size-10" />
                   ) : (
-                    <Play className="size-10" />
+                    <Play className="size-8 sm:size-10" />
                   )}
                 </button>
                 <button
-                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
-                  onClick={() => {
-                    if (audioRef.current) {
-                      audioRef.current.currentTime = Math.min(
-                        audioRef.current.duration,
-                        audioRef.current.currentTime + 10
-                      );
-                    }
-                  }}
+                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-10 sm:size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
+                  disabled
+                  title="No disponible para radio en vivo"
                 >
-                  <FastForward className="size-9" />
+                  <FastForward className="size-7 sm:size-9" />
                 </button>
                 <button
-                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
+                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-10 sm:size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
                   onClick={() => {
-                    if (audioRef.current) {
-                      audioRef.current.load();
-                      setIsLoading(true);
-                    }
+                    // Reload audio
+                    window.location.reload();
                   }}
+                  title="Reiniciar radio"
                 >
-                  <SkipForward className="size-9" />
+                  <SkipForward className="size-7 sm:size-9" />
                 </button>
+              </div>
+
+              {/* Controles de volumen - Segunda fila */}
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <button
+                  onClick={toggleMute}
+                  className="cursor-pointer flex shrink-0 items-center justify-center rounded-full size-10 sm:size-12 text-white hover:text-[var(--primary-color)] transition-all radio-player-button"
+                  title={volume === 0 ? "Activar sonido" : "Silenciar"}
+                >
+                  {volume === 0 ? (
+                    <VolumeX className="size-7 sm:size-9" />
+                  ) : (
+                    <Volume2 className="size-7 sm:size-9" />
+                  )}
+                </button>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className="w-16 sm:w-20 accent-[var(--primary-color)] cursor-pointer"
+                    title={`Volumen: ${Math.round(volume * 100)}%`}
+                  />
+                  <span className="text-white/70 text-xs min-w-[2rem] sm:min-w-[2.5rem]">
+                    {Math.round(volume * 100)}%
+                  </span>
+                </div>
               </div>
             </div>
 

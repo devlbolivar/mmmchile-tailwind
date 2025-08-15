@@ -1,117 +1,41 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import { Play, Radio, Volume2, X, Pause, VolumeX } from "lucide-react";
+import React, { useState } from "react";
+import {
+  Play,
+  Radio,
+  Volume2,
+  Pause,
+  VolumeX,
+  ChevronRight,
+} from "lucide-react";
+import { useRadio } from "./RadioContext";
 
 const RadioWidget = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [volume, setVolume] = useState(1);
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const volumeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const {
+    isPlaying,
+    isLoading,
+    error,
+    volume,
+    showVolumeSlider,
+    togglePlay,
+    handleVolumeClick,
+    handleVolumeChange,
+    toggleMute,
+  } = useRadio();
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleCanPlay = () => {
-      setIsLoading(false);
-      setError(null);
-    };
-
-    const handleWaiting = () => {
-      setIsLoading(true);
-    };
-
-    const handlePlaying = () => {
-      setIsLoading(false);
-      setError(null);
-    };
-
-    const handleError = () => {
-      setError("Error al reproducir la radio");
-      setIsLoading(false);
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener("canplay", handleCanPlay);
-    audio.addEventListener("waiting", handleWaiting);
-    audio.addEventListener("playing", handlePlaying);
-    audio.addEventListener("error", handleError);
-
-    return () => {
-      audio.removeEventListener("canplay", handleCanPlay);
-      audio.removeEventListener("waiting", handleWaiting);
-      audio.removeEventListener("playing", handlePlaying);
-      audio.removeEventListener("error", handleError);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
-
-  const togglePlay = async () => {
-    if (!audioRef.current) return;
-
-    try {
-      if (isPlaying) {
-        await audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        setIsLoading(true);
-        setIsPlaying(true);
-        await audioRef.current.play();
-      }
-    } catch (err) {
-      console.error("Error toggling play:", err);
-      setError("Error al reproducir la radio");
-      setIsPlaying(false);
-      setIsLoading(false);
-    }
-  };
-
-  const handleVolumeClick = () => {
-    setShowVolumeSlider(!showVolumeSlider);
-    if (volumeTimeoutRef.current) {
-      clearTimeout(volumeTimeoutRef.current);
-    }
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-
-    if (volumeTimeoutRef.current) {
-      clearTimeout(volumeTimeoutRef.current);
-    }
-
-    volumeTimeoutRef.current = setTimeout(() => {
-      setShowVolumeSlider(false);
-    }, 2000);
-  };
-
-  const toggleMute = () => {
-    setVolume(volume === 0 ? 1 : 0);
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
-    <div
-      className={`fixed bottom-4 right-4 z-50 transition-all duration-300 ${
-        isVisible ? "translate-y-0" : "translate-y-full opacity-0"
-      }`}
-    >
-      <audio
-        ref={audioRef}
-        src="https://s38.radiolize.com/radio/8040/radio.mp3"
-        preload="none"
-        style={{ display: "none" }}
-      />
-      <div className="bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-xl p-4 w-72 sm:w-80 border border-gray-700/50 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all duration-300">
+    <div className="fixed bottom-4 right-0 z-[9999] transition-all duration-500 ease-in-out">
+      {/* Widget Expandido */}
+      <div
+        className={`bg-gray-900/90 backdrop-blur-sm rounded-l-lg shadow-xl p-4 pr-6 sm:pr-8 border border-gray-700/50 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all duration-300 ease-out ${
+          isExpanded ? "w-72 sm:w-80 translate-x-0" : "w-0 translate-x-full"
+        }`}
+      >
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Radio className="text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
@@ -120,16 +44,10 @@ const RadioWidget = () => {
             </h3>
           </div>
           <button
-            onClick={() => {
-              setIsVisible(false);
-              if (isPlaying) {
-                audioRef.current?.pause();
-                setIsPlaying(false);
-              }
-            }}
-            className="text-gray-400 hover:text-emerald-400 cursor-pointer transition-colors duration-200"
+            onClick={toggleExpanded}
+            className="text-gray-400 hover:text-emerald-400 cursor-pointer transition-colors duration-200 mr-2"
           >
-            <X className="text-md" />
+            <ChevronRight className="text-md" />
           </button>
         </div>
         <div className="flex items-center gap-3">
@@ -166,7 +84,7 @@ const RadioWidget = () => {
           <div className="relative">
             <button
               onClick={handleVolumeClick}
-              className="cursor-pointer p-2 rounded-full bg-transparent text-gray-400 hover:text-emerald-400 transition-all duration-200 hover:bg-gray-800/50"
+              className="cursor-pointer p-2 rounded-full bg-transparent text-gray-400 hover:text-emerald-400 transition-colors duration-200 hover:bg-gray-800/50"
             >
               {volume === 0 ? (
                 <VolumeX className="text-xl" />
@@ -200,6 +118,22 @@ const RadioWidget = () => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Botón Colapsado (Icono) */}
+      <div
+        className={`bg-emerald-500 hover:bg-emerald-400 rounded-l-lg p-3 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] absolute bottom-0 right-0 ${
+          isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+        onClick={toggleExpanded}
+      >
+        <div className="relative">
+          <Radio className="text-white text-xl" />
+          {/* Indicador de "en vivo" */}
+          {isPlaying && (
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white"></div>
+          )}
         </div>
       </div>
     </div>

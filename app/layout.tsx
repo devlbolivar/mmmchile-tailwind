@@ -7,6 +7,7 @@ import Footer from "./_components/Footer";
 import RadioWidget from "./_components/RadioWidget";
 import ErrorBoundary from "./_components/ErrorBoundary";
 import PWAComponents from "./_components/PWAComponents";
+import { RadioProvider } from "./_components/RadioContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -110,13 +111,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ErrorBoundary showDetails={process.env.NODE_ENV === "development"}>
-          <Header />
-          <main id="main-content" role="main">
-            <ErrorBoundary>{children}</ErrorBoundary>
-          </main>
-          <Footer />
-          <RadioWidget />
-          <PWAComponents />
+          <RadioProvider>
+            <Header />
+            <main id="main-content" role="main">
+              <ErrorBoundary>{children}</ErrorBoundary>
+            </main>
+            <Footer />
+            <PWAComponents />
+            <RadioWidget />
+          </RadioProvider>
         </ErrorBoundary>
         <Analytics />
       </body>
