@@ -49,6 +49,7 @@ const STATIC_ASSETS = [
 const NETWORK_ONLY_URLS = [
   "/api/log-error",
   "https://www.google-analytics.com",
+  "https://www.googletagmanager.com",
   "https://vitals.vercel-analytics.com",
   "https://s38.radiolize.com", // Radio stream
 ];
@@ -294,6 +295,11 @@ self.addEventListener("fetch", (event) => {
     url.protocol === "moz-extension:"
   ) {
     return;
+  }
+
+  // Solo manejar requests del mismo origen (same-origin)
+  if (url.origin !== self.location.origin) {
+    return; // Dejar que las requests externas pasen sin intervención
   }
 
   // Network-only URLs
