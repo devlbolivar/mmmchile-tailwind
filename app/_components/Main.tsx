@@ -34,14 +34,17 @@ const Main = () => {
                 Movimiento Misionero Mundial en Chile
               </h1>
               <p className="text-gray-200 text-base sm:text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Una iglesia cristiana donde encontrarás el evangelio de
-                Jesucristo, enseñanza bíblica sólida y una comunidad de fe que
-                te ayudará a crecer espiritualmente.
+                Somos una <strong>iglesia cristiana</strong> pentecostal donde
+                encontrarás el evangelio de Jesucristo, enseñanza bíblica sólida
+                y una comunidad de fe que te ayudará a crecer espiritualmente.
               </p>
               <p className="text-gray-300 text-sm sm:text-base font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Somos parte del Movimiento Misionero Mundial, predicando la
-                Palabra de Dios y compartiendo el amor de Cristo con todos.
+                Como <strong>iglesia cristiana</strong> en Chile, somos parte
+                del Movimiento Misionero Mundial, predicando la Palabra de Dios
+                y compartiendo el amor de Cristo con todos. Nuestra{" "}
+                <strong>iglesia cristiana</strong> te da la bienvenida.
               </p>
+
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Link href="/doctrina" className="w-full sm:w-auto">
                   <Button className="btn-primary bg-[var(--primary-color)] text-base sm:text-lg px-4 sm:px-6 lg:px-8 py-3 sm:py-4 cursor-pointer w-full sm:w-auto hover:scale-105 transition-transform duration-200">

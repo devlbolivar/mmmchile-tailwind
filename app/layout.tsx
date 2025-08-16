@@ -22,21 +22,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Movimiento Misionero Mundial en Chile | Iglesia Cristiana",
+    default: "Iglesia Cristiana en Chile | MMM Chile",
     template: "%s | MMM Chile",
   },
   description:
-    "Movimiento Misionero Mundial en Chile. Predicamos el evangelio de Jesucristo, enseñamos la Biblia y compartimos la fe cristiana. Encuentra una iglesia cerca de ti para crecer en tu fe.",
+    "Iglesia cristiana en Chile. Somos una iglesia cristiana que predica el evangelio de Jesucristo, enseña la Biblia y comparte la fe cristiana. Encuentra una iglesia cristiana cerca de ti en Chile.",
   keywords: [
     "iglesia cristiana",
-    "iglesia evangélica",
     "iglesia cristiana chile",
+    "iglesia cristiana evangélica",
+    "iglesia evangélica",
+    "iglesia evangélica chile",
+    "iglesia pentecostal",
+    "iglesia evangélica pentecostal",
+    "iglesia evangélica pentecostal chile",
     "evangelio",
     "fe cristiana",
     "predicación cristiana",
     "enseñanza bíblica",
     "movimiento misionero mundial",
-    "iglesia pentecostal",
     "cristianismo",
     "jesucristo",
     "biblia",
@@ -48,6 +52,17 @@ export const metadata: Metadata = {
     "evangelización",
     "discipulado",
     "santidad cristiana",
+    "iglesia protestante",
+    "iglesia bíblica",
+    "iglesia de fe",
+    "iglesia cristiana santiago",
+    "iglesia evangélica santiago",
+    "iglesia cristiana chile horarios",
+    "iglesia evangélica chile horarios",
+    "servicios iglesia cristiana",
+    "cultos iglesia cristiana",
+    "estudios bíblicos chile",
+    "ministerio cristiano chile",
   ],
   authors: [{ name: "Movimiento Misionero Mundial Chile" }],
   creator: "Movimiento Misionero Mundial Chile",
@@ -65,9 +80,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_CL",
     url: "https://mmmchile.cl",
-    title: "Iglesia Cristiana Evangélica en Chile | MMM Chile",
+    title: "Iglesia Cristiana en Chile | MMM Chile",
     description:
-      "Iglesia cristiana evangélica en Chile. Predicamos el evangelio de Jesucristo, enseñamos la Biblia y compartimos la fe cristiana.",
+      "Iglesia cristiana en Chile. Somos una iglesia cristiana que predica el evangelio de Jesucristo, enseña la Biblia y comparte la fe cristiana. Encuentra una iglesia cristiana cerca de ti.",
     siteName: "Movimiento Misionero Mundial Chile",
     images: [
       {
@@ -80,9 +95,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Iglesia Cristiana Evangélica en Chile | MMM Chile",
+    title: "Iglesia Cristiana en Chile | MMM Chile",
     description:
-      "Iglesia cristiana evangélica en Chile. Predicamos el evangelio de Jesucristo, enseñamos la Biblia y compartimos la fe cristiana.",
+      "Iglesia cristiana en Chile. Somos una iglesia cristiana que predica el evangelio de Jesucristo, enseña la Biblia y comparte la fe cristiana.",
     images: ["/images/logo.png"],
   },
   robots: {
@@ -97,7 +112,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "your-google-verification-code", // Reemplazar con el código real
+    google: "Vhprklzmepe_JktZIkao5SVs37T1qM8VmW0zkkQDTzc",
   },
 };
 

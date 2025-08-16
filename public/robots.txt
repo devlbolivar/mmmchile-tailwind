@@ -10,6 +10,7 @@ Allow: /eventos/
 Allow: /doctrina/
 Allow: /radio/
 Allow: /contacto/
+Allow: /aniversario/
 
 # Disallow admin or private areas (if any exist in the future)
 Disallow: /api/
@@ -24,6 +25,10 @@ User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /public/
+
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
@@ -31,3 +36,12 @@ Crawl-delay: 1
 User-agent: Slurp
 Allow: /
 Crawl-delay: 1
+
+# Additional SEO instructions
+User-agent: *
+Allow: /iglesias/
+Allow: /eventos/
+Allow: /doctrina/
+Allow: /radio/
+Allow: /contacto/
+Allow: /aniversario/

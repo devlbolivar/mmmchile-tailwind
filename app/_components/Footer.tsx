@@ -75,6 +75,14 @@ const Footer = () => {
                 Contacto
               </a>
             </li>
+            <li>
+              <Link
+                className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
+                href="/sitemap-page"
+              >
+                Mapa del Sitio
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
