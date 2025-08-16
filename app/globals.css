@@ -742,10 +742,6 @@ textarea[aria-invalid="true"] {
     min-height: 100dvh;
     padding: 3rem 0;
   }
-
-  section#inicio .container {
-    padding: 2rem 3rem;
-  }
 }
 
 /* Ensure proper height calculation on all devices */
@@ -764,7 +760,6 @@ textarea[aria-invalid="true"] {
 
 /* Mobile-specific hero section improvements */
 section#inicio .container {
-  max-width: 100%;
   margin: 0 auto;
 }
 

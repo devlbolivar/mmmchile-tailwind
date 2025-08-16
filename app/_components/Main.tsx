@@ -17,17 +17,16 @@ const Main = () => {
         backgroundColor: "var(--secondary-color)",
       }}
     >
-      <div className="absolute inset-0 bg-black opacity-40"></div>
       <section
         id="inicio"
-        className="relative min-h-screen min-h-[100dvh] flex items-center justify-center px-4 py-8 sm:py-12 md:py-16 mobile-full-height"
+        className="relative min-h-screen min-h-[100dvh] flex items-center justify-center py-8 sm:py-12 md:py-16 mobile-full-height"
         style={{
           background:
             "radial-gradient(circle at center top, var(--primary-color) 0%, var(--secondary-color) 40%)",
         }}
       >
         <div className="absolute inset-0 bg-black opacity-40"></div>
-        <div className="container mx-auto relative px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto relative px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12 xl:gap-16">
             <div className="text-center lg:text-left order-2 lg:order-1 relative z-20 space-y-6">
               <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight">
@@ -59,7 +58,7 @@ const Main = () => {
                 </Link>
               </div>
             </div>
-            <div className="relative h-[250px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] w-full order-1 lg:order-2">
+            <div className="relative h-[250px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[555px] w-full order-1 lg:order-2">
               <Image
                 src="/images/hero-overlay.png"
                 alt="Movimiento Misionero Mundial Chile - Congregación unida en oración"
