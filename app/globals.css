@@ -155,11 +155,20 @@
   }
 
   .btn-primary {
-    @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg;
+    @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105;
   }
 
   .btn-secondary {
-    @apply bg-[var(--accent-color)] hover:bg-blue-200 text-[var(--primary-color)] font-semibold py-3 px-6 rounded-lg transition-colors duration-300 border border-[var(--primary-color)];
+    @apply bg-transparent hover:bg-white text-white hover:text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-white hover:scale-105;
+  }
+
+  /* Mobile button improvements */
+  @media (max-width: 768px) {
+    .btn-primary,
+    .btn-secondary {
+      @apply w-full text-center justify-center;
+      min-height: 3rem;
+    }
   }
 
   /* ------------------------------------------------------------ */
@@ -608,6 +617,13 @@ textarea[aria-invalid="true"] {
   textarea {
     font-size: 16px; /* Prevent zoom on focus */
   }
+
+  /* iOS viewport height fix */
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
 }
 
 /* Android specific fixes */
@@ -616,6 +632,194 @@ textarea[aria-invalid="true"] {
   .android-fix {
     min-height: 100vh;
     min-height: -webkit-fill-available;
+  }
+
+  /* Android viewport height fix */
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Landscape mobile fixes */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 1rem 0;
+  }
+
+  section#inicio .container {
+    padding: 1rem;
+  }
+
+  section#inicio h1 {
+    font-size: 1.75rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  section#inicio p {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  section#inicio .space-y-6 > * + * {
+    margin-top: 0.5rem !important;
+  }
+}
+
+/* Mobile viewport height fixes */
+@media (max-width: 640px) {
+  /* Small mobile devices */
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+    padding: 1rem 0;
+  }
+
+  section#inicio .container {
+    padding: 1rem;
+  }
+
+  section#inicio h1 {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  section#inicio p {
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+  }
+
+  section#inicio .btn-primary,
+  section#inicio .btn-secondary {
+    font-size: 0.875rem !important;
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  /* Medium mobile devices */
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+    padding: 1.5rem 0;
+  }
+
+  section#inicio .container {
+    padding: 1.5rem;
+  }
+
+  section#inicio h1 {
+    font-size: 2.5rem !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet devices */
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 2rem 0;
+  }
+
+  section#inicio .container {
+    padding: 2rem;
+  }
+
+  section#inicio h1 {
+    font-size: 3.5rem !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Desktop devices */
+  section#inicio {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 3rem 0;
+  }
+
+  section#inicio .container {
+    padding: 2rem 3rem;
+  }
+}
+
+/* Ensure proper height calculation on all devices */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height */
+  min-height: -webkit-fill-available; /* iOS Safari */
+}
+
+/* Custom class for mobile full height */
+.mobile-full-height {
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  min-height: -webkit-fill-available !important;
+}
+
+/* Mobile-specific hero section improvements */
+section#inicio .container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+section#inicio .grid {
+  align-items: center;
+  min-height: calc(100vh - 2rem);
+  min-height: calc(100dvh - 2rem);
+}
+
+/* Ensure content is properly centered on all devices */
+section#inicio .grid > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+section#inicio .grid > div:first-child {
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  section#inicio .grid > div:first-child {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Additional mobile improvements */
+@media (max-width: 640px) {
+  section#inicio .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
+
+  section#inicio .gap-3 {
+    gap: 0.75rem;
+  }
+
+  section#inicio .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Improve button spacing on mobile */
+@media (max-width: 768px) {
+  section#inicio .flex.flex-col {
+    gap: 0.75rem;
+  }
+
+  section#inicio .btn-primary,
+  section#inicio .btn-secondary {
+    margin: 0;
+    width: 100%;
+    max-width: 300px;
   }
 }
 
