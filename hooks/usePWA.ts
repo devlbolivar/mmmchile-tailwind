@@ -119,6 +119,20 @@ export const usePWA = () => {
 
       console.log("Service Worker registered successfully:", registration);
 
+      // Esperar a que el worker esté activo antes de continuar
+      if (registration.installing) {
+        registration.installing.addEventListener("statechange", () => {
+          if (registration.installing?.state === "installed") {
+            console.log("Service Worker installed, waiting for activation");
+          }
+        });
+      }
+
+      // Verificar si el worker ya está activo
+      if (registration.active) {
+        console.log("Service Worker is already active");
+      }
+
       // Verificar actualizaciones
       registration.addEventListener("updatefound", () => {
         const newWorker = registration.installing;

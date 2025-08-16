@@ -16,23 +16,69 @@ const NavMenu = ({ isMobile = false, onLinkClick }: NavMenuProps) => {
     e.preventDefault();
 
     if (pathname !== "/") {
+      // Cerrar el menú móvil antes de navegar
+      onLinkClick?.();
+
       // Si no estamos en la página principal, primero navegamos a ella
       router.push("/");
-      // Esperamos a que la navegación se complete antes de hacer scroll
+      // Aumentamos el timeout para mobile y usamos múltiples intentos
+      const scrollToSection = (attempts = 0) => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          // En mobile, usar scroll nativo si smooth no funciona
+          if (isMobile) {
+            section.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            // Fallback con scroll manual si smooth falla
+            setTimeout(() => {
+              const rect = section.getBoundingClientRect();
+              const scrollTop = window.pageYOffset + rect.top - 80; // 80px para el header
+              window.scrollTo({
+                top: scrollTop,
+                behavior: "smooth",
+              });
+            }, 100);
+          } else {
+            section.scrollIntoView({ behavior: "smooth" });
+          }
+        } else if (attempts < 3) {
+          // Reintentar si el elemento no se encuentra aún
+          setTimeout(() => scrollToSection(attempts + 1), 200);
+        }
+      };
+
+      setTimeout(scrollToSection, isMobile ? 500 : 300);
+    } else {
+      // Si ya estamos en la página principal, cerrar el menú inmediatamente para que el scroll funcione
+      onLinkClick?.();
+
+      // Pequeño delay para asegurar que el menú se cierre antes del scroll
       setTimeout(() => {
         const section = document.getElementById(sectionId);
         if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
+          if (isMobile) {
+            // Para mobile, usar scroll con fallback
+            section.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            // Fallback adicional para mobile
+            setTimeout(() => {
+              const rect = section.getBoundingClientRect();
+              const scrollTop = window.pageYOffset + rect.top - 80;
+              window.scrollTo({
+                top: scrollTop,
+                behavior: "smooth",
+              });
+            }, 100);
+          } else {
+            section.scrollIntoView({ behavior: "smooth" });
+          }
         }
-      }, 200);
-    } else {
-      // Si ya estamos en la página principal, solo hacemos scroll
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
+      }, 50); // Pequeño delay para que el menú se cierre primero
     }
-    onLinkClick?.();
   };
 
   const navClasses = isMobile

@@ -10,7 +10,7 @@ const ChurchSeoContent = ({
   if (!showExtendedContent) return null;
 
   return (
-    <section className="py-8 relative">
+    <section className="py-8 relative" id="iglesia-content">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-6 text-center">

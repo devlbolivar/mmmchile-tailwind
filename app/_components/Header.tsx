@@ -5,7 +5,6 @@ import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { imageConfig } from "../utils/image-placeholders";
-import { useScrollLock } from "../../hooks/useScrollLock";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -32,9 +31,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [prevScrollPos]);
-
-  // Use custom hook for scroll locking
-  useScrollLock(isMobileMenuOpen);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();

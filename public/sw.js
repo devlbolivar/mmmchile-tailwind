@@ -80,7 +80,7 @@ async function checkStorageQuota() {
 
       return { usage, quota, percentageUsed };
     } catch (error) {
-      console.error("[SW] Error checking storage quota:", error);
+      console.warn("[SW] Error checking storage quota:", error);
       return null;
     }
   }
@@ -187,15 +187,38 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     Promise.all([
       // Precachear recursos estáticos
-      caches.open(STATIC_CACHE).then((cache) => {
+      caches.open(STATIC_CACHE).then(async (cache) => {
         console.log("[SW] Precaching static assets");
-        return cache.addAll(STATIC_ASSETS);
+        try {
+          // Intentar cachear todos los recursos, pero manejar errores individuales
+          const promises = STATIC_ASSETS.map(async (asset) => {
+            try {
+              const response = await fetch(asset);
+              if (response.ok) {
+                await cache.put(asset, response);
+                console.log(`[SW] Cached: ${asset}`);
+              }
+            } catch (error) {
+              console.warn(`[SW] Failed to cache ${asset}:`, error);
+            }
+          });
+          await Promise.allSettled(promises);
+        } catch (error) {
+          console.warn("[SW] Cache operation failed:", error);
+        }
       }),
       // Verificar storage quota
       checkStorageQuota(),
       // Solicitar storage persistente si está disponible
-      self.registration.navigationPreload &&
-        self.registration.navigationPreload.enable(),
+      (async () => {
+        try {
+          if (self.registration.navigationPreload) {
+            await self.registration.navigationPreload.enable();
+          }
+        } catch (error) {
+          console.warn("[SW] Navigation preload failed:", error);
+        }
+      })(),
     ])
       .then(() => {
         console.log("[SW] Installation completed");
@@ -204,8 +227,26 @@ self.addEventListener("install", (event) => {
       .catch((error) => {
         console.error("[SW] Installation failed:", error);
         // Intentar instalación con recursos mínimos
-        return caches.open(STATIC_CACHE).then((cache) => {
-          return cache.addAll(["/", "/offline"]);
+        return caches.open(STATIC_CACHE).then(async (cache) => {
+          try {
+            // Solo cachear recursos esenciales
+            const essentialAssets = ["/", "/offline"];
+            for (const asset of essentialAssets) {
+              try {
+                const response = await fetch(asset);
+                if (response.ok) {
+                  await cache.put(asset, response);
+                }
+              } catch (fetchError) {
+                console.warn(
+                  `[SW] Failed to cache essential asset ${asset}:`,
+                  fetchError
+                );
+              }
+            }
+          } catch (cacheError) {
+            console.warn("[SW] Essential cache failed:", cacheError);
+          }
         });
       })
   );

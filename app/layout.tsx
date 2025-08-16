@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
+import VercelAnalytics from "./_components/VercelAnalytics";
+import GoogleAnalytics from "./_components/GoogleAnalytics";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
 import RadioWidget from "./_components/RadioWidget";
@@ -121,7 +122,8 @@ export default function RootLayout({
             <RadioWidget />
           </RadioProvider>
         </ErrorBoundary>
-        <Analytics />
+        <VercelAnalytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );

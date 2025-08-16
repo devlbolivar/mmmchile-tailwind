@@ -4,7 +4,7 @@ import { imageConfig } from "../utils/image-placeholders";
 
 const Lema = () => {
   return (
-    <section className="py-10 relative">
+    <section className="py-10 relative" id="lema">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-white mb-4 text-center">
           Lema 2025
