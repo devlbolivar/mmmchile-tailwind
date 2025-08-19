@@ -133,6 +133,18 @@ const NavMenu = ({ isMobile = false, onLinkClick }: NavMenuProps) => {
 
       <Link
         className={linkClasses}
+        href="/oficiales-internacionales"
+        onClick={onLinkClick}
+        aria-describedby="oficiales-desc"
+      >
+        Oficiales
+        <span id="oficiales-desc" className="sr-only">
+          Ver oficiales internacionales del MMM
+        </span>
+      </Link>
+
+      <Link
+        className={linkClasses}
         href="/eventos"
         onClick={onLinkClick}
         aria-describedby="eventos-desc"

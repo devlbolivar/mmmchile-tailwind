@@ -10,64 +10,42 @@ export const useScrollLock = (isLocked: boolean) => {
       // Guardar la posición actual del scroll
       scrollPosition.current = window.scrollY;
 
-      // Aplicar bloqueo de scroll
-      document.body.classList.add("mobile-menu-open");
+      // Aplicar bloqueo de scroll solo al body, no a los modales
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
       document.body.style.top = `-${scrollPosition.current}px`;
+      document.body.style.width = "100%";
 
-      // Prevenir scroll en todos los dispositivos móviles
-      const preventScroll = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
+      // Solo prevenir scroll en el body, no en elementos hijos
+      const preventBodyScroll = (e: Event) => {
+        if (
+          e.target === document.body ||
+          e.target === document.documentElement
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
       };
 
-      // Prevenir scroll en diferentes tipos de eventos
-      document.addEventListener("touchmove", preventScroll, {
+      // Prevenir scroll solo en el body
+      document.addEventListener("scroll", preventBodyScroll, {
         passive: false,
         capture: true,
       });
-      document.addEventListener("wheel", preventScroll, {
-        passive: false,
-        capture: true,
-      });
-      document.addEventListener("scroll", preventScroll, {
-        passive: false,
-        capture: true,
-      });
-      document.addEventListener(
-        "keydown",
-        (e) => {
-          if (
-            [
-              "ArrowUp",
-              "ArrowDown",
-              "PageUp",
-              "PageDown",
-              "Home",
-              "End",
-              " ",
-            ].includes(e.key)
-          ) {
-            e.preventDefault();
-          }
-        },
-        { passive: false }
-      );
 
       return () => {
-        document.removeEventListener("touchmove", preventScroll, {
-          capture: true,
-        });
-        document.removeEventListener("wheel", preventScroll, { capture: true });
-        document.removeEventListener("scroll", preventScroll, {
+        document.removeEventListener("scroll", preventBodyScroll, {
           capture: true,
         });
       };
     } else {
       // Restaurar scroll
-      document.body.classList.remove("mobile-menu-open");
+      document.body.style.overflow = "";
+      document.body.style.position = "";
       const currentTop = document.body.style.top;
       document.body.style.top = "";
+      document.body.style.width = "";
 
       if (currentTop) {
         const scrollY = parseInt(currentTop.replace("-", ""));
@@ -82,8 +60,10 @@ export const useScrollLock = (isLocked: boolean) => {
   useEffect(() => {
     return () => {
       if (typeof document !== "undefined") {
-        document.body.classList.remove("mobile-menu-open");
+        document.body.style.overflow = "";
+        document.body.style.position = "";
         document.body.style.top = "";
+        document.body.style.width = "";
       }
     };
   }, []);
