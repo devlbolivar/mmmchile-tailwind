@@ -38,7 +38,7 @@ const RadioPage = () => {
       { time: "02:00 PM", program: "Predicaciones" },
       { time: "03:00 PM", program: "Al Ritmo del Corazón" },
       { time: "04:00 PM", program: "Belleza Espiritual" },
-      { time: "05:00 PM", program: "The Noble Proyecto" },
+      { time: "05:00 PM", program: "The Bible Proyecto" },
       { time: "10:00 PM", program: "Me Contó un Amigo" },
       { time: "11:00 PM", program: "Biblia Maestra" },
     ],
