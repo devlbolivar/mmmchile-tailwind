@@ -8,6 +8,7 @@
   "orientation": "portrait-primary",
   "theme_color": "#3d98f4",
   "background_color": "#0c2a44",
+  "id": "mmm-chile-pwa",
   "categories": ["religion", "lifestyle", "education"],
   "lang": "es-CL",
   "dir": "ltr",

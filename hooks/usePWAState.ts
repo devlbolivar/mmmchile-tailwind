@@ -79,7 +79,10 @@ export const usePWAState = () => {
     const hasPrompt = deferredPrompt !== null;
     const isCompatible = isMobileDevice() || hasPWAFeatures();
 
-    return !isInstalled && hasPrompt && isCompatible;
+    // También verificar que el manifest esté presente
+    const hasManifest = document.querySelector('link[rel="manifest"]') !== null;
+
+    return !isInstalled && hasPrompt && isCompatible && hasManifest;
   }, [deferredPrompt, checkIfInstalled]);
 
   // Detectar dispositivo móvil
@@ -110,6 +113,9 @@ export const usePWAState = () => {
     const event = e as BeforeInstallPromptEvent;
     setDeferredPrompt(event);
     setState((prev) => ({ ...prev, isInstallable: true }));
+
+    // Debug temporal
+    console.log("✅ beforeinstallprompt event received!");
   }, []);
 
   // Manejar instalación completada
@@ -162,6 +168,18 @@ export const usePWAState = () => {
 
     // Si está instalada por cualquiera de los dos métodos, considerarla instalada
     const isInstalled = isInstalledByDetection || isInstalledByStorage;
+
+    // Debug temporal
+    console.log("🔍 PWA Debug:", {
+      isInstalledByDetection,
+      isInstalledByStorage,
+      isInstalled,
+      hasManifest: !!document.querySelector('link[rel="manifest"]'),
+      userAgent: navigator.userAgent,
+      isMobile: isMobileDevice(),
+      hasPWAFeatures: hasPWAFeatures(),
+      deferredPrompt: !!deferredPrompt,
+    });
 
     setState((prev) => ({ ...prev, isInstalled }));
 

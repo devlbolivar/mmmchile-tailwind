@@ -11,6 +11,7 @@ import PWAComponents from "./_components/PWAComponents";
 import MobileAppNavigation from "./_components/MobileAppNavigation";
 import ServiceWorkerManager from "./_components/ServiceWorkerManager";
 import SimpleInstallHint from "./_components/SimpleInstallHint";
+import PWADiagnostic from "./_components/PWADiagnostic";
 import { RadioProvider } from "./_components/RadioContext";
 
 const geistSans = Geist({
@@ -128,7 +129,6 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="manifest" href="/radio-app.webmanifest" />
         <meta name="theme-color" content="#3d98f4" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
@@ -153,6 +153,7 @@ export default function RootLayout({
             <MobileAppNavigation />
             <ServiceWorkerManager />
             <SimpleInstallHint />
+            <PWADiagnostic />
           </RadioProvider>
         </ErrorBoundary>
         <VercelAnalytics />
