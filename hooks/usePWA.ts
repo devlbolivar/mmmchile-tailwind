@@ -51,6 +51,7 @@ export const usePWA = () => {
   const handleBeforeInstallPrompt = useCallback((e: Event) => {
     e.preventDefault();
     const event = e as BeforeInstallPromptEvent;
+    console.log("BeforeInstallPrompt event received:", event);
     setDeferredPrompt(event);
     setPwaState((prev) => ({ ...prev, isInstallable: true }));
   }, []);
@@ -89,7 +90,40 @@ export const usePWA = () => {
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
     mediaQuery.addEventListener("change", checkIfInstalled);
 
+    // Detección mejorada para producción
+    const checkInstallability = () => {
+      // Verificar si el manifest está presente y válido
+      const manifestLink = document.querySelector('link[rel="manifest"]');
+      if (manifestLink) {
+        console.log("Manifest found, checking installability...");
+        // Solo marcar como instalable si:
+        // 1. No está ya instalado
+        // 2. Está online
+        // 3. Es un dispositivo móvil o tiene capacidades PWA
+        const isMobile =
+          /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          );
+        const hasPWAFeatures =
+          "serviceWorker" in navigator && "PushManager" in window;
+
+        if (!isMobile && !hasPWAFeatures) {
+          console.log("Device doesn't support PWA installation");
+          return;
+        }
+
+        setPwaState((prev) => ({
+          ...prev,
+          isInstallable: !prev.isInstalled && prev.isOnline,
+        }));
+      }
+    };
+
+    // Verificar después de un delay para asegurar que el DOM esté listo
+    const timeoutId = setTimeout(checkInstallability, 1000);
+
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt
@@ -160,9 +194,13 @@ export const usePWA = () => {
 
   // Función para instalar la PWA
   const installPWA = async (): Promise<boolean> => {
-    if (!deferredPrompt) return false;
+    if (!deferredPrompt) {
+      console.log("No deferred prompt available");
+      return false;
+    }
 
     try {
+      // Mostrar el prompt nativo del navegador
       await deferredPrompt.prompt();
       const choiceResult = await deferredPrompt.userChoice;
 
@@ -269,6 +307,9 @@ export const usePWA = () => {
     shareContent,
     getDeviceCapabilities,
     canInstall:
-      pwaState.isInstallable && !pwaState.isInstalled && pwaState.isOnline,
+      pwaState.isInstallable &&
+      !pwaState.isInstalled &&
+      pwaState.isOnline &&
+      deferredPrompt !== null,
   };
 };

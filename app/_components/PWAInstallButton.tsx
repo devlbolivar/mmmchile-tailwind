@@ -72,32 +72,24 @@ const PWAInstallButton = ({
 
     setIsInstalling(true);
 
-    // Timeout de seguridad para evitar loader infinito
-    const timeoutId = setTimeout(() => {
-      console.warn("Timeout en instalación PWA, ocultando loader");
-      setIsInstalling(false);
-    }, 10000); // 10 segundos timeout
-
     try {
       console.log("Iniciando instalación PWA...");
       const success = await installPWA();
       console.log("Resultado de instalación:", success);
 
-      clearTimeout(timeoutId);
-
       if (success) {
         setShowPrompt(false);
         // Mostrar notificación de éxito
         if ("Notification" in window && Notification.permission === "granted") {
-          new Notification("Radio Bethel Chile", {
-            body: "¡App instalada exitosamente! Ahora puedes acceder a la radio desde tu pantalla de inicio.",
+          new Notification("MMM Chile", {
+            body: "¡App instalada exitosamente! Ahora puedes acceder a MMM Chile desde tu pantalla de inicio.",
             icon: "/web-app-manifest-192x192.png",
             badge: "/favicon-96x96.png",
-            tag: "radio-app-installed",
+            tag: "mmm-chile-app-installed",
           });
         }
       } else {
-        // Si el usuario canceló, ocultar el prompt
+        // Si el usuario canceló o no hay prompt disponible, ocultar
         setShowPrompt(false);
         sessionStorage.setItem("pwa-install-dismissed", "true");
       }
@@ -105,7 +97,6 @@ const PWAInstallButton = ({
       console.error("Error installing PWA:", error);
       setShowPrompt(false);
     } finally {
-      clearTimeout(timeoutId);
       setIsInstalling(false);
     }
   };
@@ -139,9 +130,9 @@ const PWAInstallButton = ({
               <Smartphone className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-semibold">Instala la App de Radio</h3>
+              <h3 className="font-semibold">Instala la App MMM Chile</h3>
               <p className="text-sm text-emerald-100">
-                Accede rápidamente a Radio Bethel Chile
+                Accede rápidamente a MMM Chile desde tu pantalla de inicio
               </p>
             </div>
           </div>
@@ -188,7 +179,7 @@ const PWAInstallButton = ({
               <h4 className="font-semibold text-gray-900 text-sm">
                 Instalar App
               </h4>
-              <p className="text-xs text-gray-600">Radio Bethel Chile</p>
+              <p className="text-xs text-gray-600">MMM Chile</p>
             </div>
             <button
               onClick={handleDismiss}
