@@ -7,14 +7,12 @@ import {
   Pause,
   VolumeX,
   ChevronRight,
-  Maximize2,
 } from "lucide-react";
 import { useRadio } from "./RadioContext";
 import { usePWAContext } from "../../hooks/usePWAContext";
 
 const RadioWidget = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isMaximized, setIsMaximized] = useState(false);
   const { isPWA, isMobile } = usePWAContext();
   const {
     isPlaying,
@@ -32,83 +30,9 @@ const RadioWidget = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const toggleMaximized = () => {
-    setIsMaximized(!isMaximized);
-  };
-
-  // En modo PWA móvil, mostrar siempre el widget como mini-player
-  if (isPWA && isMobile && !isMaximized) {
-    return (
-      <div className="fixed bottom-20 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50 shadow-lg">
-        <div className="flex items-center justify-between p-3">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <button
-              onClick={togglePlay}
-              disabled={isLoading}
-              className="cursor-pointer p-2 rounded-full bg-emerald-500 text-gray-900 hover:bg-emerald-400 transition-all duration-300 disabled:opacity-50 shadow-[0_0_10px_rgba(16,185,129,0.3)] hover:shadow-[0_0_15px_rgba(16,185,129,0.4)]"
-            >
-              {isLoading ? (
-                <div className="w-5 h-5 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
-              ) : isPlaying ? (
-                <Pause className="text-lg" />
-              ) : (
-                <Play className="text-lg" />
-              )}
-            </button>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm text-white font-medium truncate">
-                Radio Bethel Chile
-              </p>
-              <p className="text-xs text-gray-300 truncate">
-                {error
-                  ? error
-                  : isLoading
-                  ? "Cargando..."
-                  : isPlaying
-                  ? "En vivo"
-                  : "Pausado"}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleVolumeClick}
-                className="cursor-pointer p-1 rounded-full bg-transparent text-gray-400 hover:text-emerald-400 transition-colors duration-200"
-              >
-                {volume === 0 ? (
-                  <VolumeX className="text-lg" />
-                ) : (
-                  <Volume2 className="text-lg" />
-                )}
-              </button>
-              <button
-                onClick={toggleMaximized}
-                className="cursor-pointer p-1 rounded-full bg-transparent text-gray-400 hover:text-emerald-400 transition-colors duration-200"
-              >
-                <Maximize2 className="text-lg" />
-              </button>
-            </div>
-          </div>
-        </div>
-        {showVolumeSlider && (
-          <div className="px-3 pb-2">
-            <div className="flex items-center gap-2">
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.1"
-                value={volume}
-                onChange={handleVolumeChange}
-                className="flex-1 accent-emerald-500"
-              />
-              <span className="text-xs text-gray-300 min-w-[2rem]">
-                {Math.round(volume * 100)}%
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  // En modo PWA móvil, no mostrar el widget (se usa bottom navigation)
+  if (isPWA && isMobile) {
+    return null;
   }
 
   return (

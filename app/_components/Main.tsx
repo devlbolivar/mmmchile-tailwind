@@ -8,6 +8,7 @@ import Nosotros from "./Nosotros";
 import Lema from "./Lema";
 import EventsSection from "./EventsSection";
 import ChurchSeoContent from "./ChurchSeoContent";
+import PWAInstallButton from "./PWAInstallButton";
 import { imageConfig } from "../utils/image-placeholders";
 const Main = () => {
   return (
@@ -19,7 +20,7 @@ const Main = () => {
     >
       <section
         id="inicio"
-        className="relative min-h-screen min-h-[100dvh] flex items-center justify-center py-8 sm:py-12 md:py-16 mobile-full-height"
+        className="relative min-h-[100dvh] flex items-center justify-center py-8 sm:py-12 md:py-16 mobile-full-height"
         style={{
           background:
             "radial-gradient(circle at center top, var(--primary-color) 0%, var(--secondary-color) 40%)",
@@ -56,6 +57,11 @@ const Main = () => {
                     Encuentra una Iglesia
                   </Button>
                 </Link>
+              </div>
+
+              {/* Botón de instalación PWA */}
+              <div className="mt-6 flex justify-center lg:justify-start">
+                <PWAInstallButton variant="banner" className="max-w-md" />
               </div>
             </div>
             <div className="relative h-[250px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[555px] w-full order-1 lg:order-2">

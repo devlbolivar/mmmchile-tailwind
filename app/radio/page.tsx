@@ -15,6 +15,7 @@ import {
 import Head from "next/head";
 import RadioSeoContent from "../_components/RadioSeoContent";
 import { useRadio } from "../_components/RadioContext";
+import PWAInstallButton from "../_components/PWAInstallButton";
 
 const RadioPage = () => {
   const {
@@ -230,6 +231,11 @@ const RadioPage = () => {
                   </span>
                 </div>
               </div>
+            </div>
+
+            {/* Botón de instalación PWA */}
+            <div className="max-w-2xl mx-auto mb-12">
+              <PWAInstallButton variant="banner" />
             </div>
 
             {/* Horarios de Programas */}

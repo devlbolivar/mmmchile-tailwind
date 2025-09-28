@@ -142,7 +142,7 @@ export default function RootLayout({
         <ErrorBoundary showDetails={process.env.NODE_ENV === "development"}>
           <RadioProvider>
             <Header />
-            <main id="main-content" role="main" className="pb-20 md:pb-0">
+            <main id="main-content" role="main" className="pb-0">
               <ErrorBoundary>{children}</ErrorBoundary>
             </main>
             <Footer />

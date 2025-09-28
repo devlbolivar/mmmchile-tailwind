@@ -2,15 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Radio,
-  Calendar,
-  MapPin,
-  Users,
-  BookOpen,
-  User,
-} from "lucide-react";
+import { Home, Radio, Calendar, MapPin } from "lucide-react";
 
 interface MobileAppNavigationProps {
   isVisible?: boolean;
@@ -50,27 +42,6 @@ const MobileAppNavigation = ({
       href: "/iglesias",
       icon: MapPin,
       isActive: pathname === "/iglesias",
-    },
-    {
-      id: "doctrine",
-      label: "Doctrina",
-      href: "/doctrina",
-      icon: BookOpen,
-      isActive: pathname === "/doctrina",
-    },
-    {
-      id: "officials",
-      label: "Oficiales",
-      href: "/oficiales-internacionales",
-      icon: Users,
-      isActive: pathname === "/oficiales-internacionales",
-    },
-    {
-      id: "contact",
-      label: "Contacto",
-      href: "/contacto",
-      icon: User,
-      isActive: pathname === "/contacto",
     },
   ];
 

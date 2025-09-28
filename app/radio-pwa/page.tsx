@@ -17,8 +17,8 @@ import { useRadio } from "../_components/RadioContext";
 import { usePWAContext } from "../../hooks/usePWAContext";
 import MobileAppNavigation from "../_components/MobileAppNavigation";
 import RadioNotifications from "../_components/RadioNotifications";
-import RadioPWAInstall from "../_components/RadioPWAInstall";
 import RadioConnectionStatus from "../_components/RadioConnectionStatus";
+import PWAInstallButton from "../_components/PWAInstallButton";
 
 const RadioPWAPage = () => {
   const { isPWA, isMobile } = usePWAContext();
@@ -210,6 +210,11 @@ const RadioPWAPage = () => {
             <RadioNotifications />
           </div>
 
+          {/* Botón de instalación PWA */}
+          <div className="mb-6">
+            <PWAInstallButton variant="banner" />
+          </div>
+
           {/* Programación */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20">
             <div className="text-center mb-6">
@@ -257,9 +262,6 @@ const RadioPWAPage = () => {
 
       {/* Navegación móvil para PWA */}
       {isPWA && isMobile && <MobileAppNavigation />}
-
-      {/* Componente de instalación PWA */}
-      <RadioPWAInstall />
     </div>
   );
 };
