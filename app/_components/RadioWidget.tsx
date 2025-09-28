@@ -8,7 +8,6 @@ import {
   VolumeX,
   ChevronRight,
   Maximize2,
-  Minimize2,
 } from "lucide-react";
 import { useRadio } from "./RadioContext";
 import { usePWAContext } from "../../hooks/usePWAContext";

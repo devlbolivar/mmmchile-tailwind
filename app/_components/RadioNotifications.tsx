@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Bell, BellOff, Radio, X } from "lucide-react";
+import { Bell, BellOff } from "lucide-react";
 
 const RadioNotifications = () => {
   const [isSupported, setIsSupported] = useState(false);

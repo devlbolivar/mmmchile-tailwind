@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Wifi, WifiOff, Radio, AlertCircle } from "lucide-react";
+import { Wifi, WifiOff } from "lucide-react";
 
 const RadioConnectionStatus = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -29,7 +29,7 @@ const RadioConnectionStatus = () => {
 
       // Simular verificación de calidad basada en navigator.connection si está disponible
       if ("connection" in navigator) {
-        const connection = (navigator as any).connection;
+        const connection = navigator.connection as { effectiveType?: string };
         if (
           connection.effectiveType === "slow-2g" ||
           connection.effectiveType === "2g"

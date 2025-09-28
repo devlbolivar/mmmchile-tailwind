@@ -10,7 +10,6 @@ import {
   Users,
   BookOpen,
   User,
-  Menu,
 } from "lucide-react";
 
 interface MobileAppNavigationProps {
