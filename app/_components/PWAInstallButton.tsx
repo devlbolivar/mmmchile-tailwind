@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Download, Smartphone, X } from "lucide-react";
-import { usePWA } from "../../hooks/usePWA";
+import React, { useState } from "react";
+import { Download, Smartphone } from "lucide-react";
+import { usePWAState } from "../../hooks/usePWAState";
 
 interface PWAInstallButtonProps {
   variant?: "banner" | "button" | "floating";
@@ -12,73 +12,24 @@ const PWAInstallButton = ({
   variant = "button",
   className = "",
 }: PWAInstallButtonProps) => {
-  const [showPrompt, setShowPrompt] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
-  const [isOnline, setIsOnline] = useState(true);
-  const [isPWA, setIsPWA] = useState(false);
-  const { canInstall, isInstalled, installPWA } = usePWA();
+  const { isInstalled, canShowInstallPrompt, isOnline, installPWA } =
+    usePWAState();
 
-  useEffect(() => {
-    // Verificar estado online/offline y PWA
-    const updateStatus = () => {
-      setIsOnline(navigator.onLine);
-
-      // Verificar si estamos en modo PWA
-      const isStandalone =
-        window.matchMedia("(display-mode: standalone)").matches ||
-        (window.navigator as { standalone?: boolean }).standalone === true ||
-        document.referrer.includes("android-app://");
-
-      setIsPWA(isStandalone);
-    };
-
-    // Verificar estado inicial
-    updateStatus();
-
-    // Escuchar cambios de conectividad y display mode
-    window.addEventListener("online", updateStatus);
-    window.addEventListener("offline", updateStatus);
-
-    const mediaQuery = window.matchMedia("(display-mode: standalone)");
-    mediaQuery.addEventListener("change", updateStatus);
-
-    return () => {
-      window.removeEventListener("online", updateStatus);
-      window.removeEventListener("offline", updateStatus);
-      mediaQuery.removeEventListener("change", updateStatus);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Debug logging
-    console.log("PWAInstallButton state:", {
-      canInstall,
-      isInstalled,
-      isOnline,
-      isPWA,
-      showPrompt: canInstall && !isInstalled && isOnline && !isPWA,
-    });
-
-    // Mostrar prompt solo si puede instalar, no está instalado, está online y NO estamos en PWA
-    if (canInstall && !isInstalled && isOnline && !isPWA) {
-      setShowPrompt(true);
-    } else {
-      setShowPrompt(false);
-    }
-  }, [canInstall, isInstalled, isOnline, isPWA]);
+  // No mostrar si ya está instalado, está offline, o no puede mostrar prompt
+  if (isInstalled || !isOnline || !canShowInstallPrompt) {
+    return null;
+  }
 
   const handleInstall = async () => {
-    if (isInstalling) return; // Evitar múltiples clics
+    if (isInstalling) return;
 
     setIsInstalling(true);
 
     try {
-      console.log("Iniciando instalación PWA...");
       const success = await installPWA();
-      console.log("Resultado de instalación:", success);
 
       if (success) {
-        setShowPrompt(false);
         // Mostrar notificación de éxito
         if ("Notification" in window && Notification.permission === "granted") {
           new Notification("MMM Chile", {
@@ -88,35 +39,13 @@ const PWAInstallButton = ({
             tag: "mmm-chile-app-installed",
           });
         }
-      } else {
-        // Si el usuario canceló o no hay prompt disponible, ocultar
-        setShowPrompt(false);
-        sessionStorage.setItem("pwa-install-dismissed", "true");
       }
     } catch (error) {
       console.error("Error installing PWA:", error);
-      setShowPrompt(false);
     } finally {
       setIsInstalling(false);
     }
   };
-
-  const handleDismiss = () => {
-    setShowPrompt(false);
-    // Recordar que el usuario rechazó la instalación por esta sesión
-    sessionStorage.setItem("pwa-install-dismissed", "true");
-  };
-
-  // No mostrar si ya está instalado, si el usuario rechazó, si está offline, o si estamos en PWA
-  if (
-    isInstalled ||
-    !showPrompt ||
-    sessionStorage.getItem("pwa-install-dismissed") ||
-    !isOnline ||
-    isPWA
-  ) {
-    return null;
-  }
 
   // Variante banner
   if (variant === "banner") {
@@ -136,31 +65,23 @@ const PWAInstallButton = ({
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleInstall}
-              disabled={isInstalling}
-              className="px-4 py-2 bg-white text-emerald-600 rounded-lg font-medium hover:bg-emerald-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              {isInstalling ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-                  Instalando...
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4" />
-                  Instalar
-                </>
-              )}
-            </button>
-            <button
-              onClick={handleDismiss}
-              className="p-1 rounded-full hover:bg-white/20 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            onClick={handleInstall}
+            disabled={isInstalling}
+            className="px-4 py-2 bg-white text-emerald-600 rounded-lg font-medium hover:bg-emerald-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isInstalling ? (
+              <>
+                <div className="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+                Instalando...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Instalar
+              </>
+            )}
+          </button>
         </div>
       </div>
     );
@@ -181,12 +102,6 @@ const PWAInstallButton = ({
               </h4>
               <p className="text-xs text-gray-600">MMM Chile</p>
             </div>
-            <button
-              onClick={handleDismiss}
-              className="ml-auto p-1 rounded-full hover:bg-gray-100 transition-colors"
-            >
-              <X className="w-4 h-4 text-gray-500" />
-            </button>
           </div>
           <button
             onClick={handleInstall}

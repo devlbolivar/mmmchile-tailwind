@@ -1,31 +1,25 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Smartphone, X } from "lucide-react";
-
-declare global {
-  interface Window {
-    beforeinstallprompt?: Event;
-  }
-}
+import { usePWAState } from "../../hooks/usePWAState";
 
 const SimpleInstallHint = () => {
   const [showHint, setShowHint] = useState(false);
+  const { isInstalled, canShowInstallPrompt } = usePWAState();
 
   useEffect(() => {
-    // Solo mostrar si no hay beforeinstallprompt después de 5 segundos
-    // Y NO estamos en PWA
+    // Solo mostrar si:
+    // 1. No está instalada
+    // 2. No puede mostrar prompt (no hay beforeinstallprompt)
+    // 3. Después de 5 segundos
     const timer = setTimeout(() => {
-      const isPWA =
-        window.matchMedia("(display-mode: standalone)").matches ||
-        (window.navigator as { standalone?: boolean }).standalone === true;
-
-      if (!window.beforeinstallprompt && !isPWA) {
+      if (!isInstalled && !canShowInstallPrompt) {
         setShowHint(true);
       }
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isInstalled, canShowInstallPrompt]);
 
   if (!showHint) return null;
 
