@@ -5,13 +5,11 @@ import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { imageConfig } from "../utils/image-placeholders";
-import { usePWAContext } from "../../hooks/usePWAContext";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isPWA, isMobile } = usePWAContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -51,8 +49,15 @@ const Header = () => {
   };
 
   // Ocultar header en modo PWA móvil cuando hay navegación móvil
-  if (isPWA && isMobile) {
-    return null;
+  // Verificación directa: solo ocultar si estamos en modo standalone
+  if (typeof window !== "undefined") {
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as { standalone?: boolean }).standalone === true;
+
+    if (isStandalone) {
+      return null;
+    }
   }
 
   return (

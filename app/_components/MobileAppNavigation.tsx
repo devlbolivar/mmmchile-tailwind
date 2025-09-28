@@ -74,7 +74,15 @@ const MobileAppNavigation = ({
     },
   ];
 
-  if (!isVisible) return null;
+  // Solo mostrar en PWA móvil, no en navegador móvil normal
+  // Verificación directa: solo mostrar si estamos en modo standalone
+  if (typeof window === "undefined") return null;
+
+  const isStandalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as { standalone?: boolean }).standalone === true;
+
+  if (!isVisible || !isStandalone) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg md:hidden">
