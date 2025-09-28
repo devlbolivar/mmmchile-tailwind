@@ -268,6 +268,7 @@ export const usePWA = () => {
     updatePWA,
     shareContent,
     getDeviceCapabilities,
-    canInstall: pwaState.isInstallable && !pwaState.isInstalled,
+    canInstall:
+      pwaState.isInstallable && !pwaState.isInstalled && pwaState.isOnline,
   };
 };

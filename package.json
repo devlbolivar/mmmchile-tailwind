@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run clear-sw && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "npm run lint && npm run build"
+    "deploy": "npm run lint && npm run build",
+    "clear-sw": "node scripts/clear-sw.js"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.14",

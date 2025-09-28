@@ -1,6 +1,6 @@
 // Service Worker para MMM Chile PWA
 // Versión del cache - incrementar para forzar actualización
-const CACHE_VERSION = "v1.0.0";
+const CACHE_VERSION = "v1.1759020712953";
 const STATIC_CACHE = `mmm-chile-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `mmm-chile-dynamic-${CACHE_VERSION}`;
 const IMAGES_CACHE = `mmm-chile-images-${CACHE_VERSION}`;
@@ -285,33 +285,72 @@ self.addEventListener("activate", (event) => {
 // Interceptar requests
 self.addEventListener("fetch", (event) => {
   const request = event.request;
-  const url = new URL(request.url);
 
-  // Ignorar requests no GET
+  // Solo manejar requests GET
   if (request.method !== "GET") {
     return;
   }
 
-  // Ignorar extensiones del navegador
-  if (
-    url.protocol === "chrome-extension:" ||
-    url.protocol === "moz-extension:"
-  ) {
+  try {
+    const url = new URL(request.url);
+
+    // Ignorar extensiones del navegador y protocolos especiales
+    if (
+      url.protocol === "chrome-extension:" ||
+      url.protocol === "moz-extension:" ||
+      url.protocol === "chrome:" ||
+      url.protocol === "moz-extension:"
+    ) {
+      return;
+    }
+
+    // Solo manejar requests del mismo origen (same-origin)
+    if (url.origin !== self.location.origin) {
+      return; // Dejar que las requests externas pasen sin intervención
+    }
+
+    // Network-only URLs
+    if (NETWORK_ONLY_URLS.some((pattern) => request.url.includes(pattern))) {
+      return; // Dejar que pase por la red sin intervenir
+    }
+
+    // En desarrollo, ser más permisivo con errores
+    if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+      event.respondWith(handleRequestWithFallback(request));
+    } else {
+      event.respondWith(handleRequest(request));
+    }
+  } catch (error) {
+    console.error("[SW] Error in fetch handler:", error);
+    // En caso de error, dejar que la request pase sin intervención
     return;
   }
-
-  // Solo manejar requests del mismo origen (same-origin)
-  if (url.origin !== self.location.origin) {
-    return; // Dejar que las requests externas pasen sin intervención
-  }
-
-  // Network-only URLs
-  if (NETWORK_ONLY_URLS.some((pattern) => request.url.includes(pattern))) {
-    return; // Dejar que pase por la red sin intervenir
-  }
-
-  event.respondWith(handleRequest(request));
 });
+
+// Manejar requests con fallback para desarrollo
+async function handleRequestWithFallback(request) {
+  try {
+    return await handleRequest(request);
+  } catch (error) {
+    console.warn(
+      "[SW] Request failed in development, falling back to network:",
+      error
+    );
+    try {
+      return await fetch(request);
+    } catch (networkError) {
+      console.error("[SW] Network fallback also failed:", networkError);
+      // Devolver una respuesta básica para evitar errores
+      return new Response("", {
+        status: 200,
+        statusText: "OK",
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+        },
+      });
+    }
+  }
+}
 
 // Manejar diferentes tipos de requests
 async function handleRequest(request) {

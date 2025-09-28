@@ -50,16 +50,41 @@ const PWAInstallButton = ({
   }, []);
 
   useEffect(() => {
+    // Debug logging
+    console.log("PWAInstallButton state:", {
+      canInstall,
+      isInstalled,
+      isOnline,
+      isPWA,
+      showPrompt: canInstall && !isInstalled && isOnline && !isPWA,
+    });
+
     // Mostrar prompt solo si puede instalar, no está instalado, está online y NO estamos en PWA
     if (canInstall && !isInstalled && isOnline && !isPWA) {
       setShowPrompt(true);
+    } else {
+      setShowPrompt(false);
     }
   }, [canInstall, isInstalled, isOnline, isPWA]);
 
   const handleInstall = async () => {
+    if (isInstalling) return; // Evitar múltiples clics
+
     setIsInstalling(true);
+
+    // Timeout de seguridad para evitar loader infinito
+    const timeoutId = setTimeout(() => {
+      console.warn("Timeout en instalación PWA, ocultando loader");
+      setIsInstalling(false);
+    }, 10000); // 10 segundos timeout
+
     try {
+      console.log("Iniciando instalación PWA...");
       const success = await installPWA();
+      console.log("Resultado de instalación:", success);
+
+      clearTimeout(timeoutId);
+
       if (success) {
         setShowPrompt(false);
         // Mostrar notificación de éxito
@@ -71,10 +96,16 @@ const PWAInstallButton = ({
             tag: "radio-app-installed",
           });
         }
+      } else {
+        // Si el usuario canceló, ocultar el prompt
+        setShowPrompt(false);
+        sessionStorage.setItem("pwa-install-dismissed", "true");
       }
     } catch (error) {
       console.error("Error installing PWA:", error);
+      setShowPrompt(false);
     } finally {
+      clearTimeout(timeoutId);
       setIsInstalling(false);
     }
   };

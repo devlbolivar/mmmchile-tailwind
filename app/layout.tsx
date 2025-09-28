@@ -9,6 +9,8 @@ import RadioWidget from "./_components/RadioWidget";
 import ErrorBoundary from "./_components/ErrorBoundary";
 import PWAComponents from "./_components/PWAComponents";
 import MobileAppNavigation from "./_components/MobileAppNavigation";
+import ServiceWorkerManager from "./_components/ServiceWorkerManager";
+import PWADebug from "./_components/PWADebug";
 import { RadioProvider } from "./_components/RadioContext";
 
 const geistSans = Geist({
@@ -149,6 +151,8 @@ export default function RootLayout({
             <PWAComponents />
             <RadioWidget />
             <MobileAppNavigation />
+            <ServiceWorkerManager />
+            <PWADebug />
           </RadioProvider>
         </ErrorBoundary>
         <VercelAnalytics />
