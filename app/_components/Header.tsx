@@ -5,11 +5,13 @@ import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { imageConfig } from "../utils/image-placeholders";
+import { usePWAContext } from "../../hooks/usePWAContext";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isPWA, isMobile } = usePWAContext();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -47,6 +49,11 @@ const Header = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
+
+  // Ocultar header en modo PWA móvil cuando hay navegación móvil
+  if (isPWA && isMobile) {
+    return null;
+  }
 
   return (
     <header

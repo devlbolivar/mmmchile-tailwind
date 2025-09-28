@@ -3,10 +3,12 @@ import React from "react";
 import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePWAContext } from "../../hooks/usePWAContext";
 
 const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { isPWA, isMobile } = usePWAContext();
 
   const handleNavClick = (e: React.MouseEvent, sectionId: string) => {
     e.preventDefault();
@@ -31,7 +33,11 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[var(--secondary-color)] text-white py-8 px-10 md:px-20 lg:px-40 relative">
+    <footer
+      className={`bg-[var(--secondary-color)] text-white py-8 px-10 md:px-20 lg:px-40 relative ${
+        isPWA && isMobile ? "pb-24" : ""
+      }`}
+    >
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative">
         <div>
           <h3 className="text-lg font-semibold mb-3">MMM Chile</h3>

@@ -26,6 +26,7 @@ const STATIC_ASSETS = [
   "/",
   "/offline",
   "/site.webmanifest",
+  "/radio-app.webmanifest",
   "/favicon.ico",
   "/favicon.svg",
   "/favicon-96x96.png",
@@ -38,10 +39,12 @@ const STATIC_ASSETS = [
   "/doctrina",
   "/contacto",
   "/radio",
+  "/radio-pwa",
   "/aniversario",
   // Imágenes críticas
   "/images/logo.png",
   "/images/lema.png",
+  "/images/logo-bethel.png",
   // CSS y JS se manejan automáticamente por Next.js
 ];
 

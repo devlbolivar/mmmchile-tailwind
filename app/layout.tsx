@@ -8,6 +8,7 @@ import Footer from "./_components/Footer";
 import RadioWidget from "./_components/RadioWidget";
 import ErrorBoundary from "./_components/ErrorBoundary";
 import PWAComponents from "./_components/PWAComponents";
+import MobileAppNavigation from "./_components/MobileAppNavigation";
 import { RadioProvider } from "./_components/RadioContext";
 
 const geistSans = Geist({
@@ -123,18 +124,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/radio-app.webmanifest" />
+        <meta name="theme-color" content="#3d98f4" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="MMM Chile" />
+        <link rel="apple-touch-icon" href="/web-app-manifest-192x192.png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ErrorBoundary showDetails={process.env.NODE_ENV === "development"}>
           <RadioProvider>
             <Header />
-            <main id="main-content" role="main">
+            <main id="main-content" role="main" className="pb-20 md:pb-0">
               <ErrorBoundary>{children}</ErrorBoundary>
             </main>
             <Footer />
             <PWAComponents />
             <RadioWidget />
+            <MobileAppNavigation />
           </RadioProvider>
         </ErrorBoundary>
         <VercelAnalytics />
