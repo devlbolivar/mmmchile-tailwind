@@ -29,13 +29,7 @@ const MobileAppNavigation = ({
       isActive: pathname === "/radio",
       isLive: true,
     },
-    {
-      id: "events",
-      label: "Eventos",
-      href: "/eventos",
-      icon: Calendar,
-      isActive: pathname === "/eventos",
-    },
+
     {
       id: "churches",
       label: "Iglesias",
@@ -64,17 +58,15 @@ const MobileAppNavigation = ({
             <Link
               key={item.id}
               href={item.href}
-              className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 min-w-0 flex-1 ${
-                item.isActive
+              className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 min-w-0 flex-1 ${item.isActive
                   ? "text-emerald-600 bg-emerald-50"
                   : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
-              }`}
+                }`}
             >
               <div className="relative">
                 <Icon
-                  className={`w-5 h-5 ${
-                    item.isActive ? "text-emerald-600" : "text-gray-600"
-                  }`}
+                  className={`w-5 h-5 ${item.isActive ? "text-emerald-600" : "text-gray-600"
+                    }`}
                 />
                 {item.isLive && (
                   <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>

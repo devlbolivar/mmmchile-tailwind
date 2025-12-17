@@ -1,42 +1,33 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Download, X, Radio, Smartphone, Wifi, WifiOff } from "lucide-react";
+import { Download, X, Radio, Smartphone, Wifi, WifiOff, Share2 } from "lucide-react";
 import { usePWA } from "../../hooks/usePWA";
 
 const RadioPWAInstall = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
-  const [isOnline, setIsOnline] = useState(true);
-  const { canInstall, isInstalled, installPWA } = usePWA();
+  const { canInstall, isInstalled, installPWA, isOnline, showManualInstall } = usePWA();
 
   useEffect(() => {
-    // Verificar estado online/offline
-    const updateOnlineStatus = () => {
-      setIsOnline(navigator.onLine);
-    };
-
-    updateOnlineStatus();
-    window.addEventListener("online", updateOnlineStatus);
-    window.addEventListener("offline", updateOnlineStatus);
-
-    return () => {
-      window.removeEventListener("online", updateOnlineStatus);
-      window.removeEventListener("offline", updateOnlineStatus);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Mostrar prompt solo si puede instalar, no está instalado y está online
-    if (canInstall && !isInstalled && isOnline) {
+    // Mostrar prompt si puede instalar y no está instalado
+    // O si es iOS y debemos mostrar instrucciones manuales
+    if ((canInstall || showManualInstall) && !isInstalled && isOnline) {
       // Esperar un poco antes de mostrar el prompt
       const timer = setTimeout(() => {
         setShowPrompt(true);
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [canInstall, isInstalled, isOnline]);
+  }, [canInstall, isInstalled, isOnline, showManualInstall]);
 
   const handleInstall = async () => {
+    if (showManualInstall) {
+      // En iOS no podemos forzar la instalación, solo mostrar instrucciones
+      // El usuario tendrá que hacerlo manualmente
+      handleDismiss();
+      return;
+    }
+
     setIsInstalling(true);
     try {
       const success = await installPWA();
@@ -113,37 +104,53 @@ const RadioPWAInstall = () => {
               <Smartphone className="w-8 h-8 text-emerald-600" />
             </div>
             <h4 className="text-lg font-semibold text-gray-900 mb-2">
-              Instala la App de Radio
+              {showManualInstall ? "Instalar en iPhone/iPad" : "Instala la App de Radio"}
             </h4>
             <p className="text-gray-600 text-sm leading-relaxed">
-              Accede rápidamente a Radio Bethel Chile desde tu pantalla de
-              inicio. Escucha en vivo, ve la programación y mantente conectado
-              con la fe.
+              {showManualInstall
+                ? "Para instalar la app en tu dispositivo iOS, sigue estos pasos:"
+                : "Accede rápidamente a Radio Bethel Chile desde tu pantalla de inicio. Escucha en vivo, ve la programación y mantente conectado con la fe."
+              }
             </p>
           </div>
 
-          {/* Features específicas para radio */}
+          {/* Features / Instructions */}
           <div className="space-y-3 mb-6">
-            <div className="flex items-center gap-3 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span>Radio en vivo las 24 horas del día</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span>Programación completa y actualizada</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span>Funciona sin conexión a internet</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span>Notificaciones de eventos especiales</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-gray-600">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span>Navegación rápida tipo app móvil</span>
-            </div>
+            {showManualInstall ? (
+              <div className="bg-gray-50 p-4 rounded-lg space-y-3 text-left">
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-600 text-sm font-bold">1</span>
+                  <span className="text-sm text-gray-700">Toca el botón <span className="font-bold">Compartir</span> <Share2 className="w-4 h-4 inline mx-1" /> en la barra inferior.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-600 text-sm font-bold">2</span>
+                  <span className="text-sm text-gray-700">Desliza y selecciona <span className="font-bold">Agregar al inicio</span>.</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span>Radio en vivo las 24 horas del día</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span>Programación completa y actualizada</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span>Funciona sin conexión a internet</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span>Notificaciones de eventos especiales</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span>Navegación rápida tipo app móvil</span>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Estado de conexión */}
@@ -171,7 +178,7 @@ const RadioPWAInstall = () => {
               onClick={handleDismiss}
               className="flex-1 px-4 py-3 text-gray-600 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
             >
-              Ahora no
+              {showManualInstall ? "Cerrar" : "Ahora no"}
             </button>
             <button
               onClick={handleInstall}
@@ -186,7 +193,7 @@ const RadioPWAInstall = () => {
               ) : (
                 <>
                   <Download className="w-4 h-4" />
-                  Instalar App
+                  {showManualInstall ? "Entendido" : "Instalar App"}
                 </>
               )}
             </button>

@@ -59,21 +59,7 @@ export default function SitemapPage() {
             </p>
           </section>
 
-          {/* Eventos */}
-          <section className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Eventos
-            </h2>
-            <Link
-              href="/eventos"
-              className="text-blue-600 hover:text-blue-800 text-lg font-medium"
-            >
-              Eventos de la Iglesia Cristiana
-            </Link>
-            <p className="text-gray-600 mt-2">
-              Próximos eventos y actividades de nuestra iglesia cristiana
-            </p>
-          </section>
+
 
           {/* Radio */}
           <section className="bg-white p-6 rounded-lg shadow-md">

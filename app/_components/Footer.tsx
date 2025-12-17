@@ -3,12 +3,12 @@ import React from "react";
 import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { usePWAContext } from "../../hooks/usePWAContext";
+import { usePWA } from "../../hooks/usePWA";
 
 const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { isPWA, isMobile } = usePWAContext();
+  const { isPWA, isMobile } = usePWA();
 
   const handleNavClick = (e: React.MouseEvent, sectionId: string) => {
     e.preventDefault();
@@ -34,9 +34,8 @@ const Footer = () => {
 
   return (
     <footer
-      className={`bg-[var(--secondary-color)] text-white py-8 px-10 md:px-20 lg:px-40 relative ${
-        isPWA && isMobile ? "pb-24" : ""
-      }`}
+      className={`bg-[var(--secondary-color)] text-white py-8 px-10 md:px-20 lg:px-40 relative ${isPWA && isMobile ? "pb-24" : ""
+        }`}
     >
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative">
         <div>
@@ -65,14 +64,7 @@ const Footer = () => {
                 Nosotros
               </a>
             </li>
-            <li>
-              <Link
-                className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-                href="/eventos"
-              >
-                Eventos
-              </Link>
-            </li>
+
             <li>
               <a
                 className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"

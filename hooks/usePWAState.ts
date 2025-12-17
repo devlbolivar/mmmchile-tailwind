@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -232,10 +232,15 @@ export const usePWAState = () => {
     }));
   }, []);
 
-  return {
-    ...state,
-    installPWA,
-    deferredPrompt,
-    clearInstallationState,
-  };
+  const contextValue = useMemo(
+    () => ({
+      ...state,
+      installPWA,
+      deferredPrompt,
+      clearInstallationState,
+    }),
+    [state, installPWA, deferredPrompt, clearInstallationState]
+  );
+
+  return contextValue;
 };

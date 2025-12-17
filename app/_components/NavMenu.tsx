@@ -143,17 +143,7 @@ const NavMenu = ({ isMobile = false, onLinkClick }: NavMenuProps) => {
         </span>
       </Link>
 
-      <Link
-        className={linkClasses}
-        href="/eventos"
-        onClick={onLinkClick}
-        aria-describedby="eventos-desc"
-      >
-        Eventos
-        <span id="eventos-desc" className="sr-only">
-          Ver eventos y actividades
-        </span>
-      </Link>
+
 
       <Link
         className={linkClasses}

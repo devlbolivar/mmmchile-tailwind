@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Smartphone, X } from "lucide-react";
-import { usePWAState } from "../../hooks/usePWAState";
+import { usePWA } from "../../hooks/usePWA";
 
 const SimpleInstallHint = () => {
   const [showHint, setShowHint] = useState(false);
-  const { isInstalled, canShowInstallPrompt } = usePWAState();
+  const { isInstalled, canShowInstallPrompt } = usePWA();
 
   useEffect(() => {
     // Solo mostrar si:

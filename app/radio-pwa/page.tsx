@@ -14,14 +14,14 @@ import {
   Share2,
 } from "lucide-react";
 import { useRadio } from "../_components/RadioContext";
-import { usePWAContext } from "../../hooks/usePWAContext";
+import { usePWA } from "../../hooks/usePWA";
 import MobileAppNavigation from "../_components/MobileAppNavigation";
 import RadioNotifications from "../_components/RadioNotifications";
 import RadioConnectionStatus from "../_components/RadioConnectionStatus";
 import PWAInstallButton from "../_components/PWAInstallButton";
 
 const RadioPWAPage = () => {
-  const { isPWA, isMobile } = usePWAContext();
+  const { isPWA, isMobile } = usePWA();
   const {
     isPlaying,
     isLoading,
@@ -234,8 +234,8 @@ const RadioPWAPage = () => {
                     {day === "weekdays"
                       ? "Lunes a Viernes"
                       : day === "saturday"
-                      ? "Sábados"
-                      : "Domingos"}
+                        ? "Sábados"
+                        : "Domingos"}
                   </h4>
                   <div className="space-y-2">
                     {programs.map((program, index) => (

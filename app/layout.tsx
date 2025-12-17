@@ -10,7 +10,6 @@ import ErrorBoundary from "./_components/ErrorBoundary";
 import PWAComponents from "./_components/PWAComponents";
 import MobileAppNavigation from "./_components/MobileAppNavigation";
 import ServiceWorkerManager from "./_components/ServiceWorkerManager";
-import SimpleInstallHint from "./_components/SimpleInstallHint";
 import PWADiagnostic from "./_components/PWADiagnostic";
 import { RadioProvider } from "./_components/RadioContext";
 
@@ -152,7 +151,6 @@ export default function RootLayout({
             <RadioWidget />
             <MobileAppNavigation />
             <ServiceWorkerManager />
-            <SimpleInstallHint />
             <PWADiagnostic />
           </RadioProvider>
         </ErrorBoundary>

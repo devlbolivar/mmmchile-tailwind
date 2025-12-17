@@ -9,11 +9,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useRadio } from "./RadioContext";
-import { usePWAContext } from "../../hooks/usePWAContext";
+import { usePWA } from "../../hooks/usePWA";
 
 const RadioWidget = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { isPWA, isMobile } = usePWAContext();
+  const { isPWA, isMobile } = usePWA();
   const {
     isPlaying,
     isLoading,
@@ -39,9 +39,8 @@ const RadioWidget = () => {
     <div className="fixed bottom-4 right-0 z-[9999] transition-all duration-500 ease-in-out">
       {/* Widget Expandido */}
       <div
-        className={`bg-gray-900/90 backdrop-blur-sm rounded-l-lg p-4 pr-6 sm:pr-8 border border-gray-700/50 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all duration-300 ease-out ${
-          isExpanded ? "w-72 sm:w-80 translate-x-0" : "w-0 translate-x-full"
-        }`}
+        className={`bg-gray-900/90 backdrop-blur-sm rounded-l-lg p-4 pr-6 sm:pr-8 border border-gray-700/50 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all duration-300 ease-out ${isExpanded ? "w-72 sm:w-80 translate-x-0" : "w-0 translate-x-full"
+          }`}
       >
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -76,10 +75,10 @@ const RadioWidget = () => {
               {error
                 ? error
                 : isLoading
-                ? "Cargando..."
-                : isPlaying
-                ? "Transmitiendo en vivo"
-                : "Radio en pausa"}
+                  ? "Cargando..."
+                  : isPlaying
+                    ? "Transmitiendo en vivo"
+                    : "Radio en pausa"}
             </p>
             <div className="w-full bg-gray-700/50 rounded-full h-1.5 mt-1 border border-gray-600/30">
               <div
@@ -130,9 +129,8 @@ const RadioWidget = () => {
 
       {/* Botón Colapsado (Icono) */}
       <div
-        className={`bg-emerald-500 hover:bg-emerald-400 rounded-l-lg p-3 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] absolute bottom-0 right-0 ${
-          isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
+        className={`bg-emerald-500 hover:bg-emerald-400 rounded-l-lg p-3 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] absolute bottom-0 right-0 ${isExpanded ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
         onClick={toggleExpanded}
       >
         <div className="relative">

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -7,309 +7,202 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 interface PWAState {
-  isInstallable: boolean;
   isInstalled: boolean;
+  isInstallable: boolean;
   isOnline: boolean;
   needsUpdate: boolean;
+  canShowInstallPrompt: boolean;
+  isIOS: boolean;
+  showManualInstall: boolean;
+  isMobile: boolean;
+  isStandalone: boolean;
+  isPWA: boolean; // Alias for isStandalone for backward compatibility
 }
 
 export const usePWA = () => {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
-  const [pwaState, setPwaState] = useState<PWAState>({
-    isInstallable: false,
+  const [state, setState] = useState<PWAState>({
     isInstalled: false,
+    isInstallable: false,
     isOnline: true,
     needsUpdate: false,
+    canShowInstallPrompt: false,
+    isIOS: false,
+    showManualInstall: false,
+    isMobile: false,
+    isStandalone: false,
+    isPWA: false,
   });
 
-  // Verificar si la app está instalada
+  // Detect Mobile/iOS
+  const isIOSDevice = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+    );
+  }, []);
+
+  const isMobileDevice = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) || window.innerWidth < 768
+    );
+  }, []);
+
+  // Robust installation check
   const checkIfInstalled = useCallback(() => {
-    if (typeof window === "undefined" || typeof document === "undefined")
-      return;
+    if (typeof window === "undefined") return false;
 
     try {
-      const isInstalled = !!(
-        window.matchMedia("(display-mode: standalone)").matches ||
-        (window.navigator as any).standalone === true ||
-        (document.referrer && document.referrer.includes("android-app://"))
-      );
+      // 1. Check standard display modes
+      const isStandalone = window.matchMedia(
+        "(display-mode: standalone)"
+      ).matches;
 
-      setPwaState((prev) => ({ ...prev, isInstalled }));
+      // 2. Check iOS standalone
+      const isIOSStandalone =
+        (window.navigator as any).standalone === true;
+
+      // 3. Check Android Trusted Web Activity
+      const isAndroidApp = document.referrer.includes("android-app://");
+
+      // 4. Check LocalStorage fallback (user previously installed via our button)
+      const isInstalledByStorage = localStorage.getItem("pwa-installed") === "true";
+
+      return isStandalone || isIOSStandalone || isAndroidApp || isInstalledByStorage;
     } catch (error) {
-      console.warn("Error checking PWA installation status:", error);
+      console.warn("Error checking PWA installation:", error);
+      return false;
     }
   }, []);
 
-  // Verificar estado online/offline
-  const updateOnlineStatus = useCallback(() => {
-    if (typeof navigator === "undefined") return;
-    setPwaState((prev) => ({ ...prev, isOnline: navigator.onLine }));
-  }, []);
-
-  // Manejar prompt de instalación
-  const handleBeforeInstallPrompt = useCallback((e: Event) => {
-    e.preventDefault();
-    const event = e as BeforeInstallPromptEvent;
-    console.log("BeforeInstallPrompt event received:", event);
-    setDeferredPrompt(event);
-    setPwaState((prev) => ({ ...prev, isInstallable: true }));
-  }, []);
-
-  // Manejar instalación completada
-  const handleAppInstalled = useCallback(() => {
-    console.log("PWA installed successfully");
-    setDeferredPrompt(null);
-    setPwaState((prev) => ({
-      ...prev,
-      isInstallable: false,
-      isInstalled: true,
-    }));
-  }, []);
-
-  useEffect(() => {
-    // Solo ejecutar en el cliente
+  const updateState = useCallback(() => {
     if (typeof window === "undefined") return;
 
-    // Verificar estado inicial
-    checkIfInstalled();
-    updateOnlineStatus();
+    const installed = checkIfInstalled();
+    const ios = isIOSDevice();
+    const mobile = isMobileDevice();
+    const online = navigator.onLine;
+    const hasPrompt = !!deferredPrompt;
 
-    // Registrar Service Worker
-    if ("serviceWorker" in navigator) {
-      registerServiceWorker();
-    }
+    // Determine installability
+    // Installable if: Not installed AND (Has native prompt OR (Is iOS AND Online))
+    const installable = !installed && (hasPrompt || (ios && online));
 
-    // Event listeners
+    // Show native prompt if we have the event
+    const canShowPrompt = !installed && hasPrompt && online;
+
+    // Show manual instructions if iOS, not installed, and online
+    const showManual = !installed && ios && online && !hasPrompt;
+
+    setState((prev) => {
+      const newState = {
+        ...prev,
+        isInstalled: installed,
+        isInstallable: installable,
+        isOnline: online,
+        canShowInstallPrompt: canShowPrompt,
+        isIOS: ios,
+        showManualInstall: showManual,
+        isMobile: mobile,
+        isStandalone: installed,
+        isPWA: installed,
+      };
+
+      // Simple shallow comparison to prevent unnecessary re-renders
+      const hasChanged = Object.keys(newState).some(
+        (key) => newState[key as keyof PWAState] !== prev[key as keyof PWAState]
+      );
+
+      return hasChanged ? newState : prev;
+    });
+  }, [checkIfInstalled, isIOSDevice, isMobileDevice, deferredPrompt]);
+
+  // Event Handlers
+  const handleBeforeInstallPrompt = useCallback((e: Event) => {
+    e.preventDefault();
+    setDeferredPrompt(e as BeforeInstallPromptEvent);
+  }, []);
+
+  const handleAppInstalled = useCallback(() => {
+    setDeferredPrompt(null);
+    updateState();
+  }, [updateState]);
+
+  const updateOnlineStatus = useCallback(() => {
+    updateState();
+  }, [updateState]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    updateState();
+
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
     window.addEventListener("online", updateOnlineStatus);
     window.addEventListener("offline", updateOnlineStatus);
+    window.addEventListener("resize", updateState); // Check mobile status on resize
 
-    // Verificar cambios en display mode
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
-    mediaQuery.addEventListener("change", checkIfInstalled);
-
-    // Detección mejorada para producción
-    const checkInstallability = () => {
-      // Verificar si el manifest está presente y válido
-      const manifestLink = document.querySelector('link[rel="manifest"]');
-      if (manifestLink) {
-        console.log("Manifest found, checking installability...");
-        // Solo marcar como instalable si:
-        // 1. No está ya instalado
-        // 2. Está online
-        // 3. Es un dispositivo móvil o tiene capacidades PWA
-        const isMobile =
-          /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-            navigator.userAgent
-          );
-        const hasPWAFeatures =
-          "serviceWorker" in navigator && "PushManager" in window;
-
-        if (!isMobile && !hasPWAFeatures) {
-          console.log("Device doesn't support PWA installation");
-          return;
-        }
-
-        setPwaState((prev) => ({
-          ...prev,
-          isInstallable: !prev.isInstalled && prev.isOnline,
-        }));
-      }
-    };
-
-    // Verificar después de un delay para asegurar que el DOM esté listo
-    const timeoutId = setTimeout(checkInstallability, 1000);
+    mediaQuery.addEventListener("change", updateState);
 
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
       window.removeEventListener("online", updateOnlineStatus);
       window.removeEventListener("offline", updateOnlineStatus);
-      mediaQuery.removeEventListener("change", checkIfInstalled);
+      window.removeEventListener("resize", updateState);
+      mediaQuery.removeEventListener("change", updateState);
     };
-  }, [
-    checkIfInstalled,
-    updateOnlineStatus,
-    handleBeforeInstallPrompt,
-    handleAppInstalled,
-  ]);
+  }, [handleBeforeInstallPrompt, handleAppInstalled, updateOnlineStatus, updateState]);
 
-  // Registrar Service Worker
-  const registerServiceWorker = async () => {
-    // Solo ejecutar en el cliente
-    if (typeof navigator === "undefined" || !("serviceWorker" in navigator))
-      return;
-
+  // Actions
+  const installPWA = useCallback(async (): Promise<boolean> => {
+    if (!deferredPrompt) return false;
     try {
-      const registration = await navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
-      });
-
-      console.log("Service Worker registered successfully:", registration);
-
-      // Esperar a que el worker esté activo antes de continuar
-      if (registration.installing) {
-        registration.installing.addEventListener("statechange", () => {
-          if (registration.installing?.state === "installed") {
-            console.log("Service Worker installed, waiting for activation");
-          }
-        });
-      }
-
-      // Verificar si el worker ya está activo
-      if (registration.active) {
-        console.log("Service Worker is already active");
-      }
-
-      // Verificar actualizaciones
-      registration.addEventListener("updatefound", () => {
-        const newWorker = registration.installing;
-        if (newWorker) {
-          newWorker.addEventListener("statechange", () => {
-            if (
-              newWorker.state === "installed" &&
-              navigator.serviceWorker.controller
-            ) {
-              console.log("New service worker available");
-              setPwaState((prev) => ({ ...prev, needsUpdate: true }));
-            }
-          });
-        }
-      });
-
-      // Verificar si hay un worker esperando
-      if (registration.waiting) {
-        setPwaState((prev) => ({ ...prev, needsUpdate: true }));
-      }
-    } catch (error) {
-      console.error("Service Worker registration failed:", error);
-    }
-  };
-
-  // Función para instalar la PWA
-  const installPWA = async (): Promise<boolean> => {
-    if (!deferredPrompt) {
-      console.log("No deferred prompt available");
-      return false;
-    }
-
-    try {
-      // Mostrar el prompt nativo del navegador
       await deferredPrompt.prompt();
-      const choiceResult = await deferredPrompt.userChoice;
-
-      if (choiceResult.outcome === "accepted") {
-        console.log("User accepted the install prompt");
+      const choice = await deferredPrompt.userChoice;
+      if (choice.outcome === "accepted") {
         setDeferredPrompt(null);
-        setPwaState((prev) => ({ ...prev, isInstallable: false }));
+        // Save installed state
+        if (typeof window !== "undefined") {
+          localStorage.setItem("pwa-installed", "true");
+        }
+        // Force state update
+        updateState();
         return true;
-      } else {
-        console.log("User dismissed the install prompt");
-        return false;
       }
-    } catch (error) {
-      console.error("Error during PWA installation:", error);
+      return false;
+    } catch (err) {
+      console.error("Install failed", err);
       return false;
     }
-  };
+  }, [deferredPrompt, updateState]);
 
-  // Función para actualizar la PWA
-  const updatePWA = async () => {
-    try {
-      const registration = await navigator.serviceWorker.getRegistration();
-      if (registration?.waiting) {
-        registration.waiting.postMessage({ type: "SKIP_WAITING" });
-        setPwaState((prev) => ({ ...prev, needsUpdate: false }));
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error("Error updating PWA:", error);
-    }
-  };
-
-  // Función para compartir contenido
-  const shareContent = async (data: {
-    title?: string;
-    text?: string;
-    url?: string;
-  }) => {
+  const shareContent = useCallback(async (data: { title?: string; text?: string; url?: string }) => {
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: data.title || "MMM Chile",
-          text: data.text || "Movimiento Misionero Mundial Chile",
-          url: data.url || window.location.href,
-        });
+        await navigator.share(data);
         return true;
       } catch (error) {
-        console.error("Error sharing:", error);
+        console.error("Share failed", error);
         return false;
       }
     }
-
-    // Fallback para navegadores sin Web Share API
-    if (navigator.clipboard) {
-      try {
-        await navigator.clipboard.writeText(data.url || window.location.href);
-        return true;
-      } catch (error) {
-        console.error("Error copying to clipboard:", error);
-        return false;
-      }
-    }
-
     return false;
-  };
+  }, []);
 
-  // Función para verificar capacidades del dispositivo
-  const getDeviceCapabilities = () => {
-    // Verificar si estamos en el cliente
-    if (typeof window === "undefined" || typeof navigator === "undefined") {
-      return {
-        hasServiceWorker: false,
-        hasNotifications: false,
-        hasBackgroundSync: false,
-        hasShare: false,
-        hasClipboard: false,
-        hasCamera: false,
-        hasGeolocation: false,
-        hasInstallPrompt: false,
-        isStandalone: false,
-      };
-    }
-
-    return {
-      hasServiceWorker: "serviceWorker" in navigator,
-      hasNotifications: "Notification" in window,
-      hasBackgroundSync:
-        "serviceWorker" in navigator &&
-        "sync" in window.ServiceWorkerRegistration.prototype,
-      hasShare: "share" in navigator,
-      hasClipboard: "clipboard" in navigator,
-      hasCamera:
-        "mediaDevices" in navigator && "getUserMedia" in navigator.mediaDevices,
-      hasGeolocation: "geolocation" in navigator,
-      hasInstallPrompt: deferredPrompt !== null,
-      isStandalone: pwaState.isInstalled,
-    };
-  };
-
-  return {
-    ...pwaState,
+  const contextValue = useMemo(() => ({
+    ...state,
+    deferredPrompt,
     installPWA,
-    updatePWA,
     shareContent,
-    getDeviceCapabilities,
-    canInstall:
-      pwaState.isInstallable &&
-      !pwaState.isInstalled &&
-      pwaState.isOnline &&
-      deferredPrompt !== null,
-  };
+    canInstall: state.isInstallable, // Alias
+  }), [state, deferredPrompt, installPWA, shareContent]);
+
+  return contextValue;
 };
