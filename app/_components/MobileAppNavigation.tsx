@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Radio, Calendar, MapPin } from "lucide-react";
+import { Home, Radio, MapPin } from "lucide-react";
 
 interface MobileAppNavigationProps {
   isVisible?: boolean;
@@ -59,8 +59,8 @@ const MobileAppNavigation = ({
               key={item.id}
               href={item.href}
               className={`flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 min-w-0 flex-1 ${item.isActive
-                  ? "text-emerald-600 bg-emerald-50"
-                  : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
+                ? "text-emerald-600 bg-emerald-50"
+                : "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
                 }`}
             >
               <div className="relative">

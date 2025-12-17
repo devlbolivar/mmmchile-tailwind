@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 
 const PWADiagnostic = () => {
   const pwaState = usePWA();
-  const [diagnosticInfo, setDiagnosticInfo] = useState<Record<string, any>>({});
+  const [diagnosticInfo, setDiagnosticInfo] = useState<
+    Record<string, boolean | string | null | undefined>
+  >({});
 
   useEffect(() => {
     const info = {

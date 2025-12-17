@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Download, Smartphone } from "lucide-react";
+import Image from "next/image";
 import { usePWA } from "../../hooks/usePWA";
 
 interface PWAInstallButtonProps {
@@ -69,7 +70,15 @@ const PWAInstallButton = ({
 
           <div className="flex flex-col items-center text-center">
             <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mb-4 shadow-inner">
-              <img src="/web-app-manifest-192x192.png" alt="App Icon" className="w-12 h-12 rounded-xl" />
+
+
+              <Image
+                src="/web-app-manifest-192x192.png"
+                alt="App Icon"
+                width={48}
+                height={48}
+                className="rounded-xl"
+              />
             </div>
 
             <h3 className="text-xl font-bold text-gray-900 mb-2">Instalar en iPhone / iPad</h3>
@@ -83,7 +92,7 @@ const PWAInstallButton = ({
 
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                <p className="text-sm text-gray-700">Desliza hacia abajo y selecciona <span className="font-semibold text-gray-900">"Agregar a Inicio"</span>.</p>
+                <p className="text-sm text-gray-700">Desliza hacia abajo y selecciona <span className="font-semibold text-gray-900">&quot;Agregar a Inicio&quot;</span>.</p>
               </div>
 
               <div className="flex items-start gap-3">
