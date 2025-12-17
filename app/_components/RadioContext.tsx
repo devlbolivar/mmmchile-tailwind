@@ -44,15 +44,22 @@ export const RadioProvider = ({ children }: RadioProviderProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const volumeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
+  // Ref to keep track of playing state inside event listeners without triggering re-renders
+  const isPlayingRef = useRef(isPlaying);
+
   useEffect(() => {
-    // Initialize audio element
-    audioRef.current = new Audio(
-      "https://s38.radiolize.com/radio/8040/radio.mp3"
-    );
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  useEffect(() => {
+    // Initialize audio element with optimized settings for iOS
+    const audio = new Audio("https://s38.radiolize.com/radio/8040/radio.mp3");
+    audio.preload = "auto";
+    // @ts-expect-error - playsInline property exists but might not be in standard definitions
+    audio.playsInline = true;
+    audioRef.current = audio;
 
     // Add event listeners
-    const audio = audioRef.current;
-
     const handleCanPlay = () => {
       setIsLoading(false);
       setError(null);
@@ -61,10 +68,21 @@ export const RadioProvider = ({ children }: RadioProviderProps) => {
     const handlePlaying = () => {
       setIsLoading(false);
       setError(null);
+
+      // Update Media Session State
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = "playing";
+      }
     };
 
     const handlePause = () => {
       setIsPlaying(false);
+      setIsLoading(false); // Force clear loading state
+
+      // Update Media Session State
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = "paused";
+      }
     };
 
     const handleWaiting = () => {
@@ -72,9 +90,19 @@ export const RadioProvider = ({ children }: RadioProviderProps) => {
     };
 
     const handleError = () => {
-      setError("Error al reproducir la radio");
-      setIsLoading(false);
-      setIsPlaying(false);
+      // Try to recover from error by reloading
+      // Use ref to access current state without adding dependency
+      if (audioRef.current && isPlayingRef.current) {
+        console.warn("Audio error detected, attempting to recover...");
+        setTimeout(() => {
+          audioRef.current?.load();
+          audioRef.current?.play().catch(e => console.error("Recovery failed", e));
+        }, 1000);
+      } else {
+        setError("Error al reproducir la radio");
+        setIsLoading(false);
+        setIsPlaying(false);
+      }
     };
 
     const handleStalled = () => {
@@ -93,6 +121,35 @@ export const RadioProvider = ({ children }: RadioProviderProps) => {
     audio.addEventListener("stalled", handleStalled);
     audio.addEventListener("loadstart", handleLoadStart);
 
+    // Setup Media Session API
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: "Radio Bethel Chile",
+        artist: "Movimiento Misionero Mundial",
+        album: "Señal en Vivo",
+        artwork: [
+          { src: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" },
+          { src: "/web-app-manifest-512x512.png", sizes: "512x512", type: "image/png" },
+        ],
+      });
+
+      navigator.mediaSession.setActionHandler("play", async () => {
+        setIsPlaying(true);
+        await audio.play();
+      });
+
+      navigator.mediaSession.setActionHandler("pause", () => {
+        setIsPlaying(false);
+        audio.pause();
+      });
+
+      navigator.mediaSession.setActionHandler("stop", () => {
+        setIsPlaying(false);
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    }
+
     // Cleanup
     return () => {
       audio.pause();
@@ -103,6 +160,13 @@ export const RadioProvider = ({ children }: RadioProviderProps) => {
       audio.removeEventListener("error", handleError);
       audio.removeEventListener("stalled", handleStalled);
       audio.removeEventListener("loadstart", handleLoadStart);
+
+      // Clear handlers
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.setActionHandler("play", null);
+        navigator.mediaSession.setActionHandler("pause", null);
+        navigator.mediaSession.setActionHandler("stop", null);
+      }
     };
   }, []);
 
@@ -121,12 +185,22 @@ export const RadioProvider = ({ children }: RadioProviderProps) => {
         setIsPlaying(false);
       } else {
         setIsLoading(true);
+        // Ensure AudioContext is resumed (browser policy)
+        // Note: Generic Audio element handles this mostly, but good to be aware
         setIsPlaying(true);
         await audioRef.current.play();
+
+        // Ensure Media Session is updated immediately
+        if ("mediaSession" in navigator) {
+          navigator.mediaSession.playbackState = "playing";
+        }
       }
     } catch (err) {
       console.error("Error toggling play:", err);
-      setError("Error al reproducir la radio");
+      // Don't show error immediately on user interaction fail, try to recover or ignore if minor
+      if (err instanceof Error && err.name !== 'AbortError') {
+        setError("Error al reproducir la radio");
+      }
       setIsPlaying(false);
       setIsLoading(false);
     }
