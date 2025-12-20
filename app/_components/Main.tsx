@@ -6,7 +6,6 @@ import { ArrowRightIcon } from "lucide-react";
 import Image from "next/image";
 import Nosotros from "./Nosotros";
 import Lema from "./Lema";
-import EventsSection from "./EventsSection";
 import ChurchSeoContent from "./ChurchSeoContent";
 import { imageConfig } from "../utils/image-placeholders";
 const Main = () => {
@@ -101,7 +100,6 @@ const Main = () => {
       </section>
       <Nosotros />
       <Lema />
-      <EventsSection />
       <ChurchSeoContent />
       <section id="contacto" className="py-10 relative">
         <div className="container mx-auto px-6">

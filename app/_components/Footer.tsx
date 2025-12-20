@@ -60,14 +60,6 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <Link
-                className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-                href="/eventos"
-              >
-                Eventos
-              </Link>
-            </li>
-            <li>
               <a
                 className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
                 onClick={(e) => handleNavClick(e, "contacto")}

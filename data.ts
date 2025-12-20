@@ -1,4 +1,4 @@
-import { Doctrina, Evento, Iglesia } from "./app/types";
+import { Doctrina, Iglesia } from "./app/types";
 
 export const zonas = [
   {
@@ -1006,24 +1006,6 @@ export const doctrina: Doctrina[] = [
       "2 Pedro 3:13",
       "Apocalipsis 21:1",
     ],
-  },
-];
-
-export const eventos: Evento[] = [
-  {
-    id: 1,
-    name: "Convención Nacional 2025",
-    description:
-      "La Convención Nacional 2025 será un evento histórico que congregará a toda la familia del Movimiento Misionero Mundial en Chile. Durante este encuentro, profundizaremos en temas fundamentales de nuestra fe, participaremos en talleres de capacitación ministerial y celebraremos la unidad de nuestra iglesia. Será un tiempo especial de renovación espiritual, donde recibiremos nuevas estrategias para la evangelización y fortaleceremos nuestros lazos de comunión. Este evento marcará un antes y un después en nuestro caminar como iglesia en Chile.",
-    dateStart: new Date("2025-10-30T00:00:00"),
-    dateEnd: new Date("2025-11-02T00:00:00"),
-    horarios: [],
-    location: "Por confirmar",
-    image: "/images/eventos/convencion.jpeg",
-    map: "",
-    status: "active",
-    createdAt: new Date(),
-    updatedAt: new Date(),
   },
 ];
 

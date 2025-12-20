@@ -33,7 +33,6 @@ const STATIC_ASSETS = [
   "/web-app-manifest-192x192.png",
   "/web-app-manifest-512x512.png",
   // Páginas principales
-  "/eventos",
   "/iglesias",
   "/doctrina",
   "/contacto",

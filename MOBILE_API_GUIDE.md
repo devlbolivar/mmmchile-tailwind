@@ -526,7 +526,7 @@ const openWhatsApp = async () => {
 
 1. **Implementar autenticación** si se requiere
 2. **Agregar cache persistente** para funcionamiento offline
-3. **Implementar notificaciones push** para eventos importantes
+3. **Implementar notificaciones push**
 4. **Agregar métricas y analytics** para monitoreo
 5. **Optimizar para diferentes tamaños de pantalla**
 

@@ -6,7 +6,6 @@ Sitemap: https://mmmchile.cl/sitemap.xml
 
 # Allow crawling of important pages
 Allow: /iglesias/
-Allow: /eventos/
 Allow: /doctrina/
 Allow: /radio/
 Allow: /contacto/
@@ -40,7 +39,6 @@ Crawl-delay: 1
 # Additional SEO instructions
 User-agent: *
 Allow: /iglesias/
-Allow: /eventos/
 Allow: /doctrina/
 Allow: /radio/
 Allow: /contacto/

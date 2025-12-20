@@ -8,7 +8,11 @@
   "orientation": "portrait-primary",
   "theme_color": "#3d98f4",
   "background_color": "#0c2a44",
-  "categories": ["religion", "lifestyle", "education"],
+  "categories": [
+    "religion",
+    "lifestyle",
+    "education"
+  ],
   "lang": "es-CL",
   "dir": "ltr",
   "icons": [
@@ -60,19 +64,6 @@
     }
   ],
   "shortcuts": [
-    {
-      "name": "Eventos",
-      "short_name": "Eventos",
-      "description": "Ver próximos eventos y actividades",
-      "url": "/eventos",
-      "icons": [
-        {
-          "src": "/favicon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
     {
       "name": "Iglesias",
       "short_name": "Iglesias",

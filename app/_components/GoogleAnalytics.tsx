@@ -28,14 +28,6 @@ const GoogleAnalytics = () => {
             }
           });
           
-          // Enhanced ecommerce tracking for church events
-          gtag('config', '${GA_MEASUREMENT_ID}', {
-            custom_map: {
-              'custom_parameter_4': 'eventos_cristianos',
-              'custom_parameter_5': 'predicaciones',
-              'custom_parameter_6': 'enseñanza_bíblica'
-            }
-          });
         `}
       </Script>
     </>

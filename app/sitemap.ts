@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { zonas, eventos } from "@/data";
+import { zonas } from "@/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://mmmchile.cl";
@@ -23,12 +23,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/eventos`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
     },
     {
       url: `${baseUrl}/radio`,
@@ -56,14 +50,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Páginas de eventos
-  const eventPages = eventos.map((evento) => ({
-    url: `${baseUrl}/eventos/${evento.id}`,
-    lastModified: evento.updatedAt,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
   // Páginas de iglesias por zona
   const churchPages = zonas.flatMap((zona) =>
     zona.iglesias.map((iglesia) => ({
@@ -74,5 +60,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...mainPages, ...eventPages, ...churchPages];
+  return [...mainPages, ...churchPages];
 }

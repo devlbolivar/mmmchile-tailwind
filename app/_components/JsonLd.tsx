@@ -247,12 +247,6 @@ const JsonLd = () => {
         name: "Doctrina Cristiana",
         item: "https://mmmchile.cl/doctrina",
       },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: "Eventos Cristianos",
-        item: "https://mmmchile.cl/eventos",
-      },
     ],
   };
 
