@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Download, X, Radio, Smartphone, Share2 } from "lucide-react";
+import { Download, X, Radio, Smartphone, Share2, PlusSquare } from "lucide-react";
 import { usePWA } from "../../hooks/usePWA";
 
 const PWAInstallPrompt = () => {
@@ -107,14 +107,39 @@ const PWAInstallPrompt = () => {
           {/* Features / Instructions */}
           <div className="space-y-3 mb-6">
             {showManualInstall ? (
-              <div className="bg-gray-50 p-4 rounded-lg space-y-3 text-left">
+              <div className="bg-gray-50 p-4 rounded-xl space-y-4 text-left">
                 <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-600 text-sm font-bold">1</span>
-                  <span className="text-sm text-gray-700">Toca el botón <span className="font-bold">Compartir</span> <Share2 className="w-4 h-4 inline mx-1" /> en la barra inferior.</span>
+                  <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                    <Share2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">1. Toca 'Compartir'</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Busca el ícono en la barra inferior de tu navegador.</p>
+                  </div>
                 </div>
+
+                <div className="w-full h-px bg-gray-200" />
+
                 <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-600 text-sm font-bold">2</span>
-                  <span className="text-sm text-gray-700">Desliza y selecciona <span className="font-bold">Agregar al inicio</span>.</span>
+                  <div className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600">
+                    <PlusSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">2. Selecciona 'Agregar al inicio'</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Desliza hacia abajo en el menú de opciones hasta encontrarlo.</p>
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-gray-200" />
+
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center text-gray-600">
+                    <span className="font-bold text-xs">Add</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">3. Confirma con 'Agregar'</p>
+                    <p className="text-xs text-gray-500 mt-0.5">Toca el botón en la esquina superior derecha.</p>
+                  </div>
                 </div>
               </div>
             ) : (

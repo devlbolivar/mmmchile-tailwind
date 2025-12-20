@@ -1,6 +1,6 @@
 // Service Worker para MMM Chile PWA
 // Versión del cache - incrementar para forzar actualización
-const CACHE_VERSION = "v1.1765928757345";
+const CACHE_VERSION = "v1.1766267146463";
 const STATIC_CACHE = `mmm-chile-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `mmm-chile-dynamic-${CACHE_VERSION}`;
 const IMAGES_CACHE = `mmm-chile-images-${CACHE_VERSION}`;
