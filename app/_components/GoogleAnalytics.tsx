@@ -1,16 +1,12 @@
 import Script from "next/script";
 
 const GoogleAnalytics = () => {
-  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-
-  if (!GA_MEASUREMENT_ID) {
-    return null;
-  }
+  const GA_ID = "G-6KRQBNHN00";
 
   return (
     <>
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
         strategy="afterInteractive"
       />
       <Script id="google-analytics" strategy="afterInteractive">
@@ -18,16 +14,8 @@ const GoogleAnalytics = () => {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}', {
-            page_title: 'Iglesia Cristiana Evangélica en Chile',
-            page_location: window.location.href,
-            custom_map: {
-              'custom_parameter_1': 'iglesia_cristiana',
-              'custom_parameter_2': 'evangelio',
-              'custom_parameter_3': 'fe_cristiana'
-            }
-          });
-          
+
+          gtag('config', '${GA_ID}');
         `}
       </Script>
     </>
@@ -35,3 +23,4 @@ const GoogleAnalytics = () => {
 };
 
 export default GoogleAnalytics;
+
