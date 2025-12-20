@@ -17,8 +17,8 @@ const IglesiaCard = ({ iglesia }: { iglesia: Iglesia }) => {
         }}
       ></div>
       <div className="flex flex-col gap-2">
-        <h3 className="text-white text-lg font-semibold leading-tight">
-          {iglesia.name}
+        <h3 className="text-white text-lg font-semibold leading-tight hover:text-[var(--primary-color)] transition-colors cursor-pointer">
+          <a href={`/iglesias/${iglesia.id}`}>{iglesia.name}</a>
         </h3>
         <p className="text-[var(--primary-color)] text-base font-bold leading-tight">
           Pastor: {iglesia.pastor}
@@ -32,16 +32,24 @@ const IglesiaCard = ({ iglesia }: { iglesia: Iglesia }) => {
           <br />
           <strong className="text-gray-300">Contacto:</strong> {iglesia.phone}
         </p>
-        {iglesia.phone && isPhone ? (
-          <Button
-            onClick={() => {
-              window.open(`tel:${iglesia.phone}`, "_blank");
-            }}
-            className="mt-3 w-full rounded-lg bg-[var(--primary-color)] px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition-colors duration-200"
+        <div className="flex flex-col sm:flex-row gap-2 mt-2">
+          <a
+            href={`/iglesias/${iglesia.id}`}
+            className="flex-1 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20 text-center transition-colors duration-200"
           >
-            Contactar
-          </Button>
-        ) : null}
+            Ver detalles
+          </a>
+          {iglesia.phone && isPhone ? (
+            <Button
+              onClick={() => {
+                window.open(`tel:${iglesia.phone}`, "_blank");
+              }}
+              className="flex-1 rounded-lg bg-[var(--primary-color)] px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 transition-colors duration-200"
+            >
+              Contactar
+            </Button>
+          ) : null}
+        </div>
       </div>
     </div>
   );

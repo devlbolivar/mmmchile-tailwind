@@ -95,7 +95,7 @@ export default function SitemapPage() {
               Contacto
             </h2>
             <Link
-              href="/contacto"
+              href="/#contacto"
               className="text-blue-600 hover:text-blue-800 text-lg font-medium"
             >
               Contacta con Nuestra Iglesia Cristiana

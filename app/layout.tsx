@@ -73,9 +73,6 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL("https://mmmchile.cl"),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     locale: "es_CL",

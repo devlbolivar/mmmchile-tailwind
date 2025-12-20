@@ -1,5 +1,5 @@
 import React from "react";
-import Contacto from "../contacto/_components/Contacto";
+import Contacto from "./Contacto";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
