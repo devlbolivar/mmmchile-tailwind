@@ -76,23 +76,47 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --primary-color: #3d98f4;
-  --secondary-color: #0c2a44;
-  --accent-color: #f0f7ff;
+  /* Brand palette — Midnight Blue */
+  --primary-color: #3b82f6;
+  --primary-dark: #2563eb;
+  --primary-light: #93c5fd;
+  --primary-glow: rgba(59, 130, 246, 0.35);
+
+  /* Background layers (depth) */
+  --bg-deep: #060d1a;
+  --bg-mid: #0a1527;
+  --bg-card: #0d1e35;
+  --bg-raised: #112240;
+
+  /* Legacy aliases (kept for compat) */
+  --secondary-color: #060d1a;
+  --secondary-mid: #0f172a;
+  --accent-color: #eff6ff;
+  --accent-gold: #f59e0b;
+  --accent-gold-dark: #d97706;
+
+  /* Text */
+  --text-white: #ffffff;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
   --text-primary: #111418;
   --text-secondary: #4b5563;
-  --background-light: #ffffff;
-  --background-dark: #f9fafb;
 
+  /* Borders */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-blue: rgba(59, 130, 246, 0.25);
+  --border-hover: rgba(59, 130, 246, 0.5);
   --border-light: #e5e7eb;
-  --background-white: #ffffff;
   --border-color: #e2e8f0;
 
-  --primary-hover-color: #2577d1;
+  /* Legacy */
+  --background-light: #ffffff;
+  --background-dark: #f9fafb;
+  --background-white: #ffffff;
+  --primary-hover-color: #2563eb;
   --secondary-text-color: #525f7f;
   --card-bg-color: #ffffff;
   --body-bg-color: #f8fafc;
-
   --secondary-text: #5a6472;
   --heading-text: #111827;
   --card-background-color: #f8f9fa;
@@ -170,11 +194,79 @@
   }
 
   .btn-primary {
-    @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105;
+    @apply bg-[var(--primary-color)] hover:bg-[var(--primary-dark)] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105;
+  }
+
+  .btn-gold {
+    @apply bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-amber-400/30 hover:scale-105;
+  }
+
+  .live-pill {
+    @apply inline-flex items-center gap-1.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded-full px-3 py-1.5 text-xs font-semibold hover:bg-red-500/30 transition-colors duration-200;
+  }
+
+  .hero-stat-value {
+    @apply text-2xl font-bold text-white;
+  }
+
+  .hero-stat-label {
+    @apply text-xs text-gray-400 uppercase tracking-widest mt-0.5;
   }
 
   .btn-secondary {
-    @apply bg-transparent hover:bg-white text-white hover:text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-white hover:scale-105;
+    @apply bg-transparent hover:bg-[var(--primary-color)]/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-[var(--primary-color)] hover:border-[var(--primary-light)] hover:scale-105;
+  }
+
+  /* Glassmorphism */
+  .glass-morphism {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+
+  .glass-morphism-dark {
+    @apply bg-gray-900/70 backdrop-blur-md border border-gray-800/30 shadow-xl;
+  }
+
+  /* Dark glass card */
+  .glass-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 1rem;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .glass-card:hover {
+    border-color: var(--border-blue);
+    box-shadow: 0 0 20px var(--primary-glow);
+  }
+
+  /* Glowing border */
+  .glow-border {
+    border: 1px solid var(--border-blue);
+    box-shadow: 0 0 16px var(--primary-glow);
+  }
+
+  /* Alternate section background */
+  .section-alt {
+    background-color: var(--bg-mid);
+  }
+
+  /* Page hero (non-home pages) */
+  .page-hero {
+    background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 50%, var(--bg-card) 100%);
+    padding: 5rem 0 4rem;
+    position: relative;
+  }
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, var(--primary-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Animations */
+  .fade-in {
+    @apply opacity-0 animate-in fade-in duration-700 fill-mode-forwards;
   }
 
   /* Mobile button improvements */
@@ -288,7 +380,7 @@
     bottom: -4px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     transition: width 0.3s ease;
   }
 
@@ -617,9 +709,34 @@ textarea[aria-invalid="true"] {
   }
 }
 
+/* Audio wave bars */
+@keyframes audio-wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+.audio-wave-bar {
+  width: 3px;
+  border-radius: 2px;
+  background-color: var(--primary-color);
+  animation: audio-wave 1.2s ease-in-out infinite;
+}
+.audio-wave-bar:nth-child(2) { animation-delay: 0.15s; }
+.audio-wave-bar:nth-child(3) { animation-delay: 0.3s; }
+.audio-wave-bar:nth-child(4) { animation-delay: 0.45s; }
+.audio-wave-bar:nth-child(5) { animation-delay: 0.6s; }
+
+/* Radio player glow ring when playing */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px var(--primary-glow), 0 0 40px transparent; }
+  50% { box-shadow: 0 0 30px var(--primary-glow), 0 0 60px rgba(59,130,246,0.15); }
+}
+.radio-playing-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+  border-color: var(--border-blue) !important;
+}
+
 /* iOS specific fixes */
 @supports (-webkit-touch-callout: none) {
-  /* iOS Safari specific styles */
   .ios-fix {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -627,210 +744,17 @@ textarea[aria-invalid="true"] {
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Fix for iOS keyboard behavior */
+  /* Prevent zoom on input focus */
   input,
   textarea {
-    font-size: 16px; /* Prevent zoom on focus */
-  }
-
-  /* iOS viewport height fix */
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
+    font-size: 16px;
   }
 }
 
-/* Android specific fixes */
-@media screen and (max-width: 767px) and (orientation: portrait) {
-  /* Android Chrome specific styles */
-  .android-fix {
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-  }
-
-  /* Android viewport height fix */
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
-  }
-}
-
-/* Landscape mobile fixes */
-@media screen and (max-height: 500px) and (orientation: landscape) {
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 1rem 0;
-  }
-
-  section#inicio .container {
-    padding: 1rem;
-  }
-
-  section#inicio h1 {
-    font-size: 1.75rem !important;
-    margin-bottom: 0.5rem !important;
-  }
-
-  section#inicio p {
-    font-size: 0.875rem !important;
-    margin-bottom: 0.5rem !important;
-  }
-
-  section#inicio .space-y-6 > * + * {
-    margin-top: 0.5rem !important;
-  }
-}
-
-/* Mobile viewport height fixes */
-@media (max-width: 640px) {
-  /* Small mobile devices */
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
-    padding: 1rem 0;
-  }
-
-  section#inicio .container {
-    padding: 1rem;
-  }
-
-  section#inicio h1 {
-    font-size: 2rem !important;
-    line-height: 1.2 !important;
-  }
-
-  section#inicio p {
-    font-size: 0.875rem !important;
-    line-height: 1.5 !important;
-  }
-
-  section#inicio .btn-primary,
-  section#inicio .btn-secondary {
-    font-size: 0.875rem !important;
-    padding: 0.75rem 1rem !important;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 768px) {
-  /* Medium mobile devices */
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
-    padding: 1.5rem 0;
-  }
-
-  section#inicio .container {
-    padding: 1.5rem;
-  }
-
-  section#inicio h1 {
-    font-size: 2.5rem !important;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* Tablet devices */
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 2rem 0;
-  }
-
-  section#inicio .container {
-    padding: 2rem;
-  }
-
-  section#inicio h1 {
-    font-size: 3.5rem !important;
-  }
-}
-
-@media (min-width: 1025px) {
-  /* Desktop devices */
-  section#inicio {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 3rem 0;
-  }
-}
-
-/* Ensure proper height calculation on all devices */
-.min-h-screen {
-  min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height */
-  min-height: -webkit-fill-available; /* iOS Safari */
-}
-
-/* Custom class for mobile full height */
+/* Full-height helper */
 .mobile-full-height {
-  min-height: 100vh !important;
-  min-height: 100dvh !important;
-  min-height: -webkit-fill-available !important;
-}
-
-/* Mobile-specific hero section improvements */
-section#inicio .container {
-  margin: 0 auto;
-}
-
-section#inicio .grid {
-  align-items: center;
-  min-height: calc(100vh - 2rem);
-  min-height: calc(100dvh - 2rem);
-}
-
-/* Ensure content is properly centered on all devices */
-section#inicio .grid > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-section#inicio .grid > div:first-child {
-  align-items: flex-start;
-}
-
-@media (max-width: 1024px) {
-  section#inicio .grid > div:first-child {
-    align-items: center;
-    text-align: center;
-  }
-}
-
-/* Additional mobile improvements */
-@media (max-width: 640px) {
-  section#inicio .space-y-6 > * + * {
-    margin-top: 1rem;
-  }
-
-  section#inicio .gap-3 {
-    gap: 0.75rem;
-  }
-
-  section#inicio .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-/* Improve button spacing on mobile */
-@media (max-width: 768px) {
-  section#inicio .flex.flex-col {
-    gap: 0.75rem;
-  }
-
-  section#inicio .btn-primary,
-  section#inicio .btn-secondary {
-    margin: 0;
-    width: 100%;
-    max-width: 300px;
-  }
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* PWA button styles */

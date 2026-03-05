@@ -4,6 +4,7 @@ import NavMenu from "./NavMenu";
 import SocialMedia from "./SocialMedia";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { imageConfig } from "../utils/image-placeholders";
 
 const Header = () => {
@@ -59,11 +60,11 @@ const Header = () => {
           className="flex items-center gap-3 cursor-pointer"
           onClick={handleLogoClick}
         >
-          <div className="size-8">
+          <div className="size-10">
             <Image
               src="/images/logo.png"
               alt="Logotipo del Movimiento Misionero Mundial Chile"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(96,165,250,0.4)]"
               width={imageConfig.logo.width}
               height={imageConfig.logo.height}
               quality={imageConfig.logo.quality}
@@ -78,6 +79,14 @@ const Header = () => {
         </div>
         <NavMenu />
         <div className="hidden md:flex items-center gap-4">
+          <Link
+            href="/radio"
+            className="live-pill"
+            aria-label="Radio en vivo"
+          >
+            <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" aria-hidden="true" />
+            EN VIVO
+          </Link>
           <SocialMedia />
         </div>
         <button

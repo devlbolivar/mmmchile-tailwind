@@ -7,7 +7,7 @@ const Lema = () => {
     <section className="py-10 relative" id="lema">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-white mb-4 text-center">
-          Lema 2025
+          Lema 2026
         </h2>
         <div className="w-full flex items-center justify-center mb-4">
           <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>
@@ -15,7 +15,7 @@ const Lema = () => {
         <div className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
           <Image
             src="/images/lema.png"
-            alt="Lema 2025 del Movimiento Misionero Mundial Chile"
+            alt="Lema 2026 del Movimiento Misionero Mundial Chile"
             className="w-full md:h-[250px] object-cover"
             width={1024}
             height={512}

@@ -97,18 +97,6 @@ const NavMenu = ({ isMobile = false, onLinkClick }: NavMenuProps) => {
     >
       <button
         className={linkClasses}
-        onClick={(e) => handleNavClick(e, "inicio")}
-        type="button"
-        aria-describedby="inicio-desc"
-      >
-        Inicio
-        <span id="inicio-desc" className="sr-only">
-          Ir a la sección de inicio
-        </span>
-      </button>
-
-      <button
-        className={linkClasses}
         onClick={(e) => handleNavClick(e, "nosotros")}
         type="button"
         aria-describedby="nosotros-desc"
@@ -130,19 +118,6 @@ const NavMenu = ({ isMobile = false, onLinkClick }: NavMenuProps) => {
           Ver doctrina y creencias
         </span>
       </Link>
-
-      <Link
-        className={linkClasses}
-        href="/oficiales-internacionales"
-        onClick={onLinkClick}
-        aria-describedby="oficiales-desc"
-      >
-        Oficiales
-        <span id="oficiales-desc" className="sr-only">
-          Ver oficiales internacionales del MMM
-        </span>
-      </Link>
-
 
       <Link
         className={linkClasses}

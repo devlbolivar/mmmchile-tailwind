@@ -1,117 +1,176 @@
+"use client";
 import React from "react";
 import Contacto from "./Contacto";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Nosotros from "./Nosotros";
 import Lema from "./Lema";
 import ChurchSeoContent from "./ChurchSeoContent";
 import { imageConfig } from "../utils/image-placeholders";
+import { motion } from "framer-motion";
+
 const Main = () => {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.8, ease: "easeOut" },
+  } as const;
+
+  const commonProps = { alt: "Movimiento Misionero Mundial Chile — congregación", fill: true, sizes: "100vw", quality: 85 };
+
+  const {
+    props: { srcSet: desktopSrcSet, ...desktopImages },
+  } = getImageProps({
+    ...commonProps,
+    src: "/images/hero-overlay.png",
+    priority: imageConfig.hero.priority,
+    quality: imageConfig.hero.quality,
+  });
+
+  const {
+    props: { srcSet: mobileSrcSet, ...fallbackImage },
+  } = getImageProps({
+    ...commonProps,
+    src: "/images/mobile_hero_bg.png",
+    priority: true,
+  });
+
   return (
-    <main
-      className="flex-1"
-      style={{
-        backgroundColor: "var(--secondary-color)",
-      }}
-    >
+    <main className="flex-1" style={{ backgroundColor: "var(--bg-deep)" }}>
+      {/* ── Hero Full-Screen ── */}
       <section
         id="inicio"
-        className="relative min-h-screen min-h-[100dvh] flex items-center justify-center py-8 sm:py-12 md:py-16 mobile-full-height"
-        style={{
-          background:
-            "radial-gradient(circle at center top, var(--primary-color) 0%, var(--secondary-color) 40%)",
-        }}
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{ height: "100dvh", minHeight: "600px" }}
       >
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-        <div className="container mx-auto relative px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12 xl:gap-16">
-            <div className="text-center lg:text-left order-2 lg:order-1 relative z-20 space-y-6">
-              <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight">
-                Movimiento Misionero Mundial en Chile
-              </h1>
-              <p className="text-gray-200 text-base sm:text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Somos una <strong>iglesia cristiana</strong> pentecostal donde
-                encontrarás el evangelio de Jesucristo, enseñanza bíblica sólida
-                y una comunidad de fe que te ayudará a crecer espiritualmente.
-              </p>
-              <p className="text-gray-300 text-sm sm:text-base font-light leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Como <strong>iglesia cristiana</strong> en Chile, somos parte
-                del Movimiento Misionero Mundial, predicando la Palabra de Dios
-                y compartiendo el amor de Cristo con todos. Nuestra{" "}
-                <strong>iglesia cristiana</strong> te da la bienvenida.
-              </p>
+        <picture>
+          <source
+            media="(min-width: 640px)"
+            srcSet={desktopSrcSet}
+          />
+          <img
+            {...fallbackImage}
+            className="w-full h-full object-cover"
+          />
+        </picture>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Link href="/doctrina" className="w-full sm:w-auto">
-                  <Button className="btn-primary bg-[var(--primary-color)] text-base sm:text-lg px-4 sm:px-6 lg:px-8 py-3 sm:py-4 cursor-pointer w-full sm:w-auto hover:scale-105 transition-transform duration-200">
-                    Conoce Nuestra Fe
-                    <ArrowRightIcon className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-                <Link href="/iglesias" className="w-full sm:w-auto">
-                  <Button className="btn-secondary bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-900 text-base sm:text-lg px-4 sm:px-6 lg:px-8 py-3 sm:py-4 cursor-pointer w-full sm:w-auto hover:scale-105 transition-transform duration-200">
-                    Encuentra una Iglesia
-                  </Button>
-                </Link>
+        {/* Dark overlay fading into page bg */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(6,13,26,0.72) 55%, #060d1a 100%)",
+          }}
+        />
+
+        {/* Blue glow at top */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 40% at 50% 0%, rgba(59,130,246,0.35) 0%, transparent 70%)",
+          }}
+        />
+
+        {/* Dot grid texture */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{
+            backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="flex flex-col items-center gap-6 max-w-4xl"
+          >
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/25 rounded-full px-4 py-1.5 text-blue-300 text-xs font-semibold tracking-wider uppercase">
+              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
+              Iglesia Cristiana Pentecostal
+            </div>
+
+            {/* Title */}
+            <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+              Movimiento Misionero{" "}
+              <span className="text-blue-300">Mundial</span> en Chile
+            </h1>
+
+            {/* Description */}
+            <p className="text-gray-300 text-base sm:text-lg md:text-xl font-light leading-relaxed max-w-2xl">
+              Iglesia cristiana pentecostal donde encontrarás el evangelio de
+              Jesucristo, enseñanza bíblica sólida y una comunidad de fe que te
+              ayudará a crecer espiritualmente.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+              <Link href="/doctrina" className="w-full sm:w-auto">
+                <Button className="btn-primary text-base px-8 py-4 cursor-pointer w-full sm:w-auto">
+                  Conoce Nuestra Fe
+                  <ArrowRightIcon className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+              <Link href="/iglesias" className="w-full sm:w-auto">
+                <Button className="btn-secondary text-base px-8 py-4 cursor-pointer w-full sm:w-auto">
+                  Encuentra una Iglesia
+                </Button>
+              </Link>
+            </div>
+
+            {/* Stats strip */}
+            <div className="flex items-center gap-8 pt-4 mt-2 border-t border-white/10">
+              <div className="flex flex-col items-center">
+                <span className="hero-stat-value">+40</span>
+                <span className="hero-stat-label">Iglesias</span>
+              </div>
+              <div className="w-px h-10 bg-white/15" />
+              <div className="flex flex-col items-center">
+                <span className="hero-stat-value">+40</span>
+                <span className="hero-stat-label">Años</span>
+              </div>
+              <div className="w-px h-10 bg-white/15" />
+              <div className="flex flex-col items-center">
+                <span className="hero-stat-value">Todo</span>
+                <span className="hero-stat-label">Chile</span>
               </div>
             </div>
-            <div className="relative h-[250px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[555px] w-full order-1 lg:order-2">
-              <Image
-                src="/images/hero-overlay.png"
-                alt="Movimiento Misionero Mundial Chile - Congregación unida en oración"
-                className="object-cover w-full h-full rounded-lg shadow-2xl"
-                priority={imageConfig.hero.priority}
-                width={imageConfig.hero.width}
-                height={imageConfig.hero.height}
-                quality={imageConfig.hero.quality}
-                placeholder="blur"
-                blurDataURL={imageConfig.hero.placeholder}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                style={{
-                  maskImage: `linear-gradient(
-                    to bottom,
-                    rgba(0, 0, 0, 1) 0%,
-                    rgba(0, 0, 0, 1) 20%,
-                    rgba(0, 0, 0, 0.95) 30%,
-                    rgba(0, 0, 0, 0.8) 40%,
-                    rgba(0, 0, 0, 0.6) 50%,
-                    rgba(0, 0, 0, 0.3) 60%,
-                    rgba(0, 0, 0, 0.1) 70%,
-                    rgba(0, 0, 0, 0) 80%
-                  )`,
-                  WebkitMaskImage: `linear-gradient(
-                    to bottom,
-                    rgba(0, 0, 0, 1) 0%,
-                    rgba(0, 0, 0, 1) 20%,
-                    rgba(0, 0, 0, 0.95) 30%,
-                    rgba(0, 0, 0, 0.8) 40%,
-                    rgba(0, 0, 0, 0.6) 50%,
-                    rgba(0, 0, 0, 0.3) 60%,
-                    rgba(0, 0, 0, 0.1) 70%,
-                    rgba(0, 0, 0, 0) 80%
-                  )`,
-                }}
-              />
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
-      <Nosotros />
-      <Lema />
+
+      {/* ── Nosotros ── */}
+      <motion.div {...fadeInUp}>
+        <Nosotros />
+      </motion.div>
+
+      {/* ── Lema ── */}
+      <motion.div {...fadeInUp}>
+        <Lema />
+      </motion.div>
+
       <ChurchSeoContent />
-      <section id="contacto" className="py-10 relative">
+
+      {/* ── Contacto ── */}
+      <motion.section id="contacto" className="py-16 relative" {...fadeInUp}>
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-white  text-center ">
+          <h2 className="text-3xl font-bold text-white text-center">
             Contacto
           </h2>
-          <div className="w-full flex items-center justify-center mb-4">
-            <div className="h-1 w-30 bg-[var(--primary-color)] rounded-full"></div>
+          <div className="w-full flex items-center justify-center mb-8 mt-3">
+            <div className="h-1 w-16 bg-[var(--primary-color)] rounded-full" />
           </div>
           <Contacto />
         </div>
-      </section>
+      </motion.section>
     </main>
   );
 };

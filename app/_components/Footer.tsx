@@ -31,26 +31,21 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[var(--secondary-color)] text-white py-8 px-10 md:px-20 lg:px-40 relative">
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-        <div>
-          <h3 className="text-lg font-semibold mb-3">MMM Chile</h3>
-          <p className="text-sm text-gray-400">
-            Movimiento Misionero Mundial en Chile. Llevando el evangelio a toda
-            criatura.
+    <footer className="bg-[var(--secondary-color)] text-white pt-12 pb-6 px-6 md:px-10 lg:px-20 relative border-t border-white/5">
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative">
+        {/* Brand */}
+        <div className="sm:col-span-2 md:col-span-1">
+          <h3 className="text-lg font-bold mb-3 text-white">MMM Chile</h3>
+          <p className="text-sm text-gray-400 leading-relaxed">
+            Movimiento Misionero Mundial en Chile. Llevando el evangelio de
+            Jesucristo a toda criatura.
           </p>
         </div>
+
+        {/* Páginas */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Enlaces Rápidos</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <a
-                className=" cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-                onClick={(e) => handleNavClick(e, "inicio")}
-              >
-                Inicio
-              </a>
-            </li>
+          <h3 className="text-sm font-semibold mb-4 text-gray-300 uppercase tracking-wider">Páginas</h3>
+          <ul className="space-y-2.5 text-sm">
             <li>
               <a
                 className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
@@ -58,6 +53,38 @@ const Footer = () => {
               >
                 Nosotros
               </a>
+            </li>
+            <li>
+              <Link className="text-gray-400 hover:text-[var(--primary-color)] transition-colors" href="/doctrina">
+                Doctrina
+              </Link>
+            </li>
+            <li>
+              <Link className="text-gray-400 hover:text-[var(--primary-color)] transition-colors" href="/iglesias">
+                Iglesias
+              </Link>
+            </li>
+            <li>
+              <Link className="text-gray-400 hover:text-[var(--primary-color)] transition-colors" href="/aniversario">
+                Aniversario
+              </Link>
+            </li>
+            <li>
+              <Link className="text-gray-400 hover:text-[var(--primary-color)] transition-colors" href="/oficiales-internacionales">
+                Oficiales Int.
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Info */}
+        <div>
+          <h3 className="text-sm font-semibold mb-4 text-gray-300 uppercase tracking-wider">Más</h3>
+          <ul className="space-y-2.5 text-sm">
+            <li>
+              <Link className="text-gray-400 hover:text-[var(--primary-color)] transition-colors" href="/radio">
+                Radio en Vivo
+              </Link>
             </li>
             <li>
               <a
@@ -68,22 +95,22 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <Link
-                className="cursor-pointer text-gray-400 hover:text-[var(--primary-color)] transition-colors"
-                href="/sitemap-page"
-              >
+              <Link className="text-gray-400 hover:text-[var(--primary-color)] transition-colors" href="/sitemap-page">
                 Mapa del Sitio
               </Link>
             </li>
           </ul>
         </div>
+
+        {/* Social */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Síguenos</h3>
+          <h3 className="text-sm font-semibold mb-4 text-gray-300 uppercase tracking-wider">Síguenos</h3>
           <SocialMedia />
         </div>
       </div>
-      <div className="mt-5 border-t border-gray-700 pt-4 text-center text-sm text-gray-400 relative">
-        © 2025 MMM Chile. Todos los derechos reservados.
+
+      <div className="max-w-[1200px] mx-auto mt-10 border-t border-white/10 pt-5 text-center text-sm text-gray-500">
+        © 2026 Movimiento Misionero Mundial Chile. Todos los derechos reservados.
       </div>
     </footer>
   );
